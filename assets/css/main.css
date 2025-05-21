@@ -152,7 +152,7 @@ input, select, textarea {
 		-webkit-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		-ms-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-bottom-color 0.2s ease-in-out;
-		border-bottom: dotted 1px rgba(255, 255, 255, 0.5);
+		border-bottom: dotted 1px rgb(255, 255, 255);
 		text-decoration: none;
 		color: inherit;
 	}
@@ -400,7 +400,7 @@ input, select, textarea {
 		-ms-transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		background-color: transparent;
-		border-radius: 4px;
+		border-radius: 20px;
 		border: solid 1px #ffffff;
 		color: inherit;
 		display: block;
@@ -516,7 +516,7 @@ input, select, textarea {
 				-webkit-transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 				-ms-transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 				transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
-				border-radius: 4px;
+				border-radius: 20px;
 				border: solid 1px #ffffff;
 				content: '';
 				display: inline-block;
@@ -545,7 +545,7 @@ input, select, textarea {
 		}
 
 	input[type="checkbox"] + label:before {
-		border-radius: 4px;
+		border-radius: 20px;
 	}
 
 	input[type="radio"] + label:before {
@@ -657,10 +657,11 @@ input, select, textarea {
 			position: absolute;
 			top: 0;
 			width: 100%;
+			
 		}
 
 		.image img {
-			border-radius: 4px;
+			border-radius: 20px;
 			display: block;
 		}
 
@@ -912,7 +913,7 @@ input, select, textarea {
 
 			ul.icons li a {
 				border-radius: 100%;
-				box-shadow: inset 0 0 0 1px #ffffff;
+				box-shadow: inset 0 0 0 2px #ffffff;
 				display: inline-block;
 				height: 2.25rem;
 				line-height: 2.25rem;
@@ -922,6 +923,7 @@ input, select, textarea {
 
 				ul.icons li a:hover {
 					background-color: rgba(255, 255, 255, 0.075);
+					text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00, 0 0 10px #ff2323;
 				}
 
 				ul.icons li a:active {
@@ -963,7 +965,7 @@ input, select, textarea {
 		}
 
 		table thead {
-			border-bottom: solid 2px #ffffff;
+			border-bottom: solid 20px #ffffff;
 		}
 
 		table tfoot {
@@ -996,7 +998,7 @@ input, select, textarea {
 				border-top: 0;
 			}
 
-/* Button */
+/* Button : box buttons for contact*/
 
 	input[type="submit"],
 	input[type="reset"],
@@ -1135,10 +1137,10 @@ input, select, textarea {
 			-webkit-transition: background-color 2.5s ease-in-out;
 			-ms-transition: background-color 2.5s ease-in-out;
 			transition: background-color 2.5s ease-in-out;
-			-moz-transition-delay: 0.75s;
-			-webkit-transition-delay: 0.75s;
-			-ms-transition-delay: 0.75s;
-			transition-delay: 0.75s;
+			-moz-transition-delay: 0.50s;
+			-webkit-transition-delay: 0.50s;
+			-ms-transition-delay: 0.50s;
+			transition-delay: 0.50s;
 			background-image: linear-gradient(to top, rgba(19, 21, 25, 0.5), rgba(19, 21, 25, 0.5)), url("../../images/overlay.png");
 			background-size: auto,
  256px 256px;
@@ -1177,7 +1179,7 @@ input, select, textarea {
 		}
 
 		body.is-preload #bg:before {
-			background-color: #000000;
+			background-color: #ffedb1;
 		}
 
 /* Wrapper */
@@ -1293,7 +1295,7 @@ input, select, textarea {
 		#header .logo {
 			width: 5.5rem;
 			height: 5.5rem;
-			line-height: 5.5rem;
+			line-height: 8.5rem;
 			border: solid 1px #ffffff;
 			border-radius: 100%;
 		}
@@ -1401,6 +1403,7 @@ input, select, textarea {
 			-ms-filter: blur(0.1rem);
 			filter: blur(0.1rem);
 			opacity: 0;
+			 border-radius: 100px;
 		}
 
 		body.is-preload #header {
@@ -1546,9 +1549,12 @@ input, select, textarea {
 			position: relative;
 			width: 40rem;
 			max-width: 100%;
-			background-color: rgba(27, 31, 34, 0.85);
-			border-radius: 4px;
-			opacity: 0;
+			background-color: rgba(0, 0, 0, 0.85);
+			border-radius: 20px;
+			overflow: hidden;
+  			box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+			opacity: 0.1;
+			backdrop-filter: blur(1px);
 		}
 
 			#main article.active {
@@ -1584,7 +1590,7 @@ input, select, textarea {
 					left: 0.75rem;
 					width: 2.5rem;
 					height: 2.5rem;
-					border-radius: 100%;
+					border-radius: 4px;
 					background-position: center;
 					background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='20px' height='20px' viewBox='0 0 20 20' zoomAndPan='disable'%3E%3Cstyle%3Eline %7B stroke: %23ffffff%3B stroke-width: 1%3B %7D%3C/style%3E%3Cline x1='2' y1='2' x2='18' y2='18' /%3E%3Cline x1='18' y1='2' x2='2' y2='18' /%3E%3C/svg%3E");
 					background-size: 20px 20px;
@@ -1592,7 +1598,7 @@ input, select, textarea {
 				}
 
 				#main article .close:hover:before {
-					background-color: rgba(255, 255, 255, 0.075);
+					background-color: rgba(38, 223, 78, 0.075);
 				}
 
 				#main article .close:active:before {
@@ -1611,6 +1617,7 @@ input, select, textarea {
 					width: 2.25rem;
 					height: 2.25rem;
 					background-size: 14px 14px;
+					border-radius: 4px;
 				}
 
 		}
@@ -1654,6 +1661,7 @@ input, select, textarea {
 			-ms-filter: blur(0.1rem);
 			filter: blur(0.1rem);
 			opacity: 0;
+			border-radius: 20px;
 		}
 
 		body.is-preload #footer {
@@ -1677,8 +1685,95 @@ input, select, textarea {
 }
 
 .social-icons a:hover {
-  color: #ffe17f; /* or any hover color you like */
+  color: #ffeaa5; /* or any hover color you like */
   opacity: 10;
   text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00, 0 0 10px #ff2323;
 }
+
+.topic-subsections {
+  list-style: none;
+  padding: 0;
+ /* font-family: 'Playfair Display', sans-serif; */
+}
+
+.topic-subsections li {
+  margin-bottom: 40px;
+}
+
+.topic-subsections a {
+  display: block;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-shadow: #ffffff;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.topic-subsections a:hover {
+  color: #fff1c2; /* or any hover color you like */
+  opacity: 10;
+  box-shadow: #ffffff;
+  text-shadow: #ffffff;
+ /*text-shadow: 0 0 5px #ffffff, 0 0 10px #fff788, 0 0 10px #ffc981; */
+}
+
+.my-name {
+  font-family: 'Cormorant Garamond', serif;
+ 
+}
+
+.topic-name{
+	font-family: 'Cormorant Garamond', serif;
+}
+
+.marcus-section {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Cormorant Garamond', serif;
+  
+}
+
+.marcus-image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 20px;
+  object-fit: cover;
+  filter: contrast(110%) brightness(105%) saturate(130%);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+ /* box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); */
+  
+}
+
+.image-caption {
+  font-size: 1.2rem;
+  color: #777;
+  margin-top: 0.5rem;
+
+}
+
+
+.blog-articles li {
+  list-style-type: disc; /* default dot */
+  transition: list-style-type 0.3s ease;
+}
+
+.blog-articles li:hover {
+  list-style-type: none; /* remove dot on hover */
+}
+
+.blog-articles a {
+  display: inline-block;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+.blog-articles a:hover {
+  transform: scale(1.08);
+  text-shadow: 0 8px 15px rgba(255, 204, 0, 0.4);
+}
+
 
