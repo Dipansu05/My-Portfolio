@@ -1,0 +1,122 @@
+<!-- array.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arrays | Dipansu</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    body {
+      background-image: url('images/dsa-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #ffffff;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    .container {
+      padding: 4em 2em;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    pre {
+      background-color: #222;
+      padding: 1em;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: monospace;
+      color: #ffeaa5;
+    }
+
+    .illustration {
+      text-align: center;
+      margin: 2em 0;
+    }
+
+    .illustration img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .quiz {
+      background-color: #333;
+      padding: 1em;
+      border-left: 5px solid #ffeaa5;
+      margin-top: 2em;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2em;
+      color: #ffeaa5;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Arrays</h1>
+    <p>Arrays are the foundation of data structures. They store elements in a contiguous block of memory and are indexed starting from zero.</p>
+
+    <h2>Basic Operations</h2>
+    <ul>
+      <li>Access: O(1)</li>
+      <li>Update: O(1)</li>
+      <li>Insert/Delete at end: O(1) for dynamic arrays</li>
+      <li>Insert/Delete in middle: O(n)</li>
+    </ul>
+
+    <h2>Memory Layout Illustration</h2>
+    <div class="illustration">
+      <img src="images/array-illustration.png" alt="Array Memory Layout Illustration">
+    </div>
+
+    <h2>C++ Example</h2>
+    <pre>
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int arr[5] = {1, 2, 3, 4, 5};
+
+    cout &lt;&lt; "Array elements: ";
+    for (int i = 0; i < 5; i++) {
+        cout &lt;&lt; arr[i] &lt;&lt; " ";
+    }
+    return 0;
+}
+    </pre>
+
+    <div class="quiz">
+      <h3>Quiz</h3>
+      <p>What is the time complexity to access the 3rd element of an array?</p>
+      <ul>
+        <li>A. O(1)</li>
+        <li>B. O(n)</li>
+        <li>C. O(log n)</li>
+        <li>D. O(n log n)</li>
+      </ul>
+    </div>
+
+    <a href="dsa.html" class="back-link">&larr; Back to DSA</a>
+  </div>
+</body>
+</html>
