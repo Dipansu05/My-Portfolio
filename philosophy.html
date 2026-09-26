@@ -19,9 +19,7 @@
       line-height: 1.8;
       margin: 0;
       padding: 2rem;
-      
-  
-
+      overflow-x: hidden;
     } 
     
 
@@ -56,6 +54,44 @@
 
     a.back-link:hover {
       text-shadow: 0 0 5px #ffcc00, 0 0 10px #ffcc00;
+    }
+
+    .marcus-section {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .marcus-image {
+      max-width: 100%;
+      height: auto;
+      width: 220px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .image-caption {
+      font-style: italic;
+      font-size: 1rem;
+      color: #cccccc;
+      margin-top: 0.75rem;
+    }
+
+    @media screen and (max-width: 480px) {
+      body {
+        padding: 1rem;
+      }
+
+      .container {
+        padding: 1.25rem;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+      }
+
+      .marcus-image {
+        width: 160px;
+      }
     }
   </style>
 </head>
