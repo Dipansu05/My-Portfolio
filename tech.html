@@ -1,0 +1,78 @@
+<!-- tech.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech | Dipansu</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      background-image: url('images/IMG_5633.JPG');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #ffffff;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Slightly dark overlay */
+      z-index: -1;
+    }
+
+    .container {
+      padding: 4em 2em;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .tech-section {
+      margin-bottom: 2em;
+    }
+
+    h1, h2 {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2em;
+      color: #ffeaa5;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Tech</h1>
+    <p>Explore deep technical insights and hands-on guides in:</p>
+    <a href="dsa.html"a>
+    <div class="tech-section">
+      
+      <h2>Data Structures & Algorithms</h2>
+      <p>Master the foundation of problem-solving. Learn sorting, searching, recursion, and how to ace coding interviews with real-world examples.</p>
+    </div>
+
+    <div class="tech-section">
+      <h2>Linux</h2>
+      <p>Dive into the internals of the Linux OS. Understand process management, shell scripting, file systems, and the magic behind open-source computing.</p>
+    </div>
+
+    <div class="tech-section">
+      <h2>Yocto</h2>
+      <p>Build custom embedded Linux systems from scratch using the Yocto Project. Get hands-on with layers, recipes, BitBake, and image optimization techniques.</p>
+    </div>
+
+    <a href="index.html#topic" class="back-link">&larr; Back to Topics</a>
+  </div>
+</body>
+</html>
+

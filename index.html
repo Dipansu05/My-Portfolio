@@ -7,10 +7,18 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap" rel="stylesheet">
 
-
+		<style>
+			.typed-cursor {
+				opacity: 1;
+				animation: blink 0.7s infinite;
+			}
+			@keyframes blink {
+				0%, 50% { opacity: 1; }
+				51%, 100% { opacity: 0; }
+			}
+		</style>
 
 	</head>
 	<body class="is-preload">
@@ -39,12 +47,11 @@
 						<div class="logo">
 							<img src="images/May 21, 2025, 12_59_59 PM.png" alt="" style="width: 80px; height: 80px; border-radius: 50%;" />
 							
-						</div>
-						<div class="content">
+						</div>						<div class="content">
 							<div class="inner">
 								<h1 class="my-name">Dipansu</h1>
-								<p>Personal blog and interests.<br />
-								cheers.</p>
+								<p><span class="typed-sisyphus"></span><br />
+								</p>
 							</div>
 						</div>
 						<nav>
@@ -61,11 +68,11 @@
 				<!-- Main -->
 					<div id="main">
 
-						<!-- Intro -->
-							<article id="intro">
+						<!-- Intro -->							<article id="intro">
 								<h2 class="major">Intro</h2>
+								<h3>I am <span class="typed-intro"></span></h3>
 								<span class="image main"><img src="images/IMG_7139.JPG" alt="" /></span>
-								<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
+								<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue.Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. By the way, check out my <a href="#work">awesome work</a>.</p>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus. Pellentesque aliquam maximus risus, vel sed vehicula.</p>
 							</article>
 
@@ -393,9 +400,9 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/typewriter.js"></script>
 
 	</body>
 </html>
