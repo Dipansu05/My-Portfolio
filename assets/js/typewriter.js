@@ -22,6 +22,7 @@ function Typewriter(el, options) {
 
 Typewriter.prototype.tick = function () {
   var current = this.strings[this.strIndex];
+  var isLastString = this.strIndex === this.strings.length - 1;
 
   if (this.isDeleting) {
     this.charIndex--;
@@ -34,23 +35,25 @@ Typewriter.prototype.tick = function () {
   var delay = this.isDeleting ? this.eraseSpeed : this.typeSpeed;
 
   if (!this.isDeleting && this.charIndex === current.length) {
+
+    // Non-looping typewriter: stop after typing the final string, cursor keeps blinking.
+    if (!this.loop && isLastString) {
+      return;
+    }
+
     delay = this.pauseAfterType;
     this.isDeleting = true;
   } else if (this.isDeleting && this.charIndex === 0) {
     this.isDeleting = false;
     this.strIndex = (this.strIndex + 1) % this.strings.length;
     delay = this.pauseAfterErase;
-
-    if (!this.loop && this.strIndex === 0) {
-      return;
-    }
   }
 
   setTimeout(this.tick, delay);
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-  // "I AM A [DEVELOPER, LEARNER, ENGINEER]"
+  // "I AM A [DEVELOPER, LEARNER, ENGINEER]" - loops continuously
   var introTarget = document.querySelector('.typed-intro');
   if (introTarget) {
     new Typewriter(introTarget, {
