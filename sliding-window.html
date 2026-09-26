@@ -1,10 +1,10 @@
-<!-- array.html -->
+<!-- sliding-window.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arrays | Dipansu</title>
+  <title>Sliding Window Technique | Dipansu</title>
   <link rel="stylesheet" href="assets/css/main.css" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -136,15 +136,6 @@
       font-size: 0.88rem;
       color: #c9d1d9;
       line-height: 1.6;
-    }
-
-    pre {
-      background-color: #222;
-      padding: 1em;
-      border-radius: 10px;
-      overflow-x: auto;
-      font-family: monospace;
-      color: #ffeaa5;
     }
 
     .illustration {
@@ -298,108 +289,133 @@
 </head>
 <body>
   <div class="container">
-    <h1>Arrays</h1>
-    <p>Arrays are the foundation of data structures. They store elements in a contiguous block of memory and are indexed starting from zero. Because elements sit next to each other in memory, arrays offer extremely fast random access — but that same contiguity is what makes insertion and deletion in the middle expensive.</p>
+    <h1>Sliding Window Technique</h1>
+    <p>The sliding window technique maintains a "window" — a contiguous range of elements defined by two pointers — that expands or slides across an array or string, avoiding redundant recomputation and turning many O(n²) or O(n³) brute-force solutions into <strong>O(n)</strong>.</p>
 
-    <h2>Static vs. Dynamic Arrays</h2>
-    <p><strong>Static arrays</strong> (like C's <code>int arr[5]</code>) have a fixed size decided at compile time. They live on the stack (or in a fixed memory region) and cannot grow.</p>
-    <p><strong>Dynamic arrays</strong> (like C++'s <code>std::vector</code>, Python's <code>list</code>, or Java's <code>ArrayList</code>) can resize themselves. Under the hood, when a dynamic array runs out of space, it allocates a new, larger block (typically <strong>double</strong> the current capacity), copies all existing elements over, and frees the old block. This is why appending to a dynamic array is <strong>amortized O(1)</strong> — most appends are O(1), but occasionally one costs O(n) during a resize.</p>
+    <h2>When to Use Sliding Window</h2>
+    <p>Reach for this pattern whenever a problem asks about a <strong>contiguous subarray or substring</strong> that satisfies some condition — maximum/minimum sum, longest/shortest length, or a count of distinct characters. If your brute force involves checking every subarray with nested loops, a sliding window can usually collapse it into a single pass.</p>
 
-    <h2>Basic Operations & Time Complexity</h2>
+    <h2>Fixed-Size vs Variable-Size Windows</h2>
+    <ul class="tech-list">
+      <li><strong>Fixed-Size Window</strong> — the window length <code>k</code> is given upfront. Slide it one step at a time: add the new element entering the window, remove the one leaving it. Used for problems like "maximum sum of any subarray of size k."</li>
+      <li><strong>Variable-Size Window</strong> — the window grows by moving the right pointer, and shrinks by moving the left pointer whenever a constraint is violated. Used for "longest substring without repeating characters" or "smallest subarray with sum ≥ target."</li>
+      <li><strong>Window + Hash Map</strong> — many variable-size problems pair the window with a hash map/frequency count to track character counts or element occurrences in O(1) per step.</li>
+    </ul>
+
+    <h2>Time & Space Complexity</h2>
     <table class="complexity-table">
       <thead>
         <tr>
-          <th>Operation</th>
-          <th>Static Array</th>
-          <th>Dynamic Array</th>
+          <th>Problem Type</th>
+          <th>Brute Force</th>
+          <th>Sliding Window</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Access by index</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
-        <tr><td>Update by index</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
-        <tr><td>Insert/Delete at end</td><td>N/A (fixed size)</td><td class="big-o">Amortized O(1)</td></tr>
-        <tr><td>Insert/Delete at start or middle</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
-        <tr><td>Search (unsorted)</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
-        <tr><td>Search (sorted, binary search)</td><td class="big-o">O(log n)</td><td class="big-o">O(log n)</td></tr>
+        <tr><td>Max sum subarray of size k</td><td class="big-o">O(n·k)</td><td class="big-o">O(n)</td></tr>
+        <tr><td>Longest substring without repeats</td><td class="big-o">O(n²) or O(n³)</td><td class="big-o">O(n)</td></tr>
+        <tr><td>Smallest subarray with sum ≥ target</td><td class="big-o">O(n²)</td><td class="big-o">O(n)</td></tr>
+        <tr><td>Minimum window substring</td><td class="big-o">O(n²)</td><td class="big-o">O(n), O(k) space</td></tr>
       </tbody>
     </table>
 
-    <h2>Memory Layout Illustration</h2>
+    <h2>Illustration: Window Sliding Across an Array</h2>
     <div class="illustration">
-      <img src="images/array-illustration.png" alt="Array Memory Layout Illustration">
+      <img src="images/array-illustration.png" alt="Sliding Window Technique Illustration">
     </div>
 
-    <h2>Why Insertion/Deletion in the Middle is O(n)</h2>
-    <p>Because array elements must stay contiguous, inserting or removing an element at index <code>i</code> requires shifting every element after <code>i</code> by one position — an operation proportional to the number of remaining elements.</p>
-
-    <h2>C++ Example: Declaring & Iterating</h2>
+    <h2>C++ Example: Maximum Sum Subarray of Size K</h2>
     <div class="code-block">
       <div class="code-titlebar">
         <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span>array_basics.cpp</span>
+        <span>max_sum_window.cpp</span>
       </div>
       <pre>#include &lt;iostream&gt;
+#include &lt;vector&gt;
 using namespace std;
 
-int main() {
-    int arr[5] = {1, 2, 3, 4, 5};
+int maxSumSubarray(vector&lt;int&gt;& arr, int k) {
+    int windowSum = 0, maxSum = 0;
 
-    cout &lt;&lt; "Array elements: ";
-    for (int i = 0; i &lt; 5; i++) {
-        cout &lt;&lt; arr[i] &lt;&lt; " ";
+    // build the first window
+    for (int i = 0; i &lt; k; i++) {
+        windowSum += arr[i];
     }
-    return 0;
+    maxSum = windowSum;
+
+    // slide the window across the rest of the array
+    for (int i = k; i &lt; arr.size(); i++) {
+        windowSum += arr[i] - arr[i - k];
+        maxSum = max(maxSum, windowSum);
+    }
+    return maxSum;
 }</pre>
     </div>
 
-    <h2>Python Example: Common Array Patterns</h2>
+    <h2>Python Example: Variable-Size Windows</h2>
     <div class="code-block">
       <div class="code-titlebar">
         <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span>array_patterns.py</span>
+        <span>sliding_window_patterns.py</span>
       </div>
-      <pre># 1. Reversing an array in place (two-pointer)
-def reverse(arr):
-    left, right = 0, len(arr) - 1
-    while left &lt; right:
-        arr[left], arr[right] = arr[right], arr[left]
-        left += 1
-        right -= 1
-    return arr
+      <pre># 1. Longest substring without repeating characters
+def length_of_longest_substring(s):
+    seen = {}
+    left = 0
+    best = 0
+    for right, ch in enumerate(s):
+        if ch in seen and seen[ch] &gt;= left:
+            left = seen[ch] + 1
+        seen[ch] = right
+        best = max(best, right - left + 1)
+    return best
 
-# 2. Finding the maximum subarray sum (Kadane's Algorithm) — O(n)
-def max_subarray_sum(arr):
-    max_sum = current_sum = arr[0]
-    for num in arr[1:]:
-        current_sum = max(num, current_sum + num)
-        max_sum = max(max_sum, current_sum)
-    return max_sum
+# 2. Minimum size subarray with sum &gt;= target
+def min_subarray_len(target, nums):
+    left = 0
+    total = 0
+    best = float('inf')
+    for right, num in enumerate(nums):
+        total += num
+        while total &gt;= target:
+            best = min(best, right - left + 1)
+            total -= nums[left]
+            left += 1
+    return best if best != float('inf') else 0
 
-# 3. Prefix sums for O(1) range sum queries after O(n) preprocessing
-def build_prefix_sums(arr):
-    prefix = [0] * (len(arr) + 1)
-    for i, num in enumerate(arr):
-        prefix[i + 1] = prefix[i] + num
-    return prefix  # sum(arr[i:j]) == prefix[j] - prefix[i]</pre>
+# 3. Minimum window substring containing all characters of t
+def min_window(s, t):
+    from collections import Counter
+    need = Counter(t)
+    missing = len(t)
+    left = start = end = 0
+
+    for right, ch in enumerate(s, 1):
+        if need[ch] &gt; 0:
+            missing -= 1
+        need[ch] -= 1
+
+        if missing == 0:
+            while left &lt; right and need[s[left]] &lt; 0:
+                need[s[left]] += 1
+                left += 1
+            if end == 0 or right - left &lt; end - start:
+                start, end = left, right
+            need[s[left]] += 1
+            missing += 1
+            left += 1
+
+    return s[start:end]</pre>
     </div>
-
-    <h2>Common Array Techniques to Master</h2>
-    <ul class="tech-list">
-      <li><strong>Two Pointers</strong> — converging or diverging pointers to solve pair-sum, reversal, and partition problems in O(n).</li>
-      <li><strong>Sliding Window</strong> — maintaining a moving subrange to solve subarray/substring problems in O(n) instead of O(n²).</li>
-      <li><strong>Prefix Sums</strong> — precomputing cumulative sums to answer range-sum queries in O(1).</li>
-      <li><strong>Kadane's Algorithm</strong> — a dynamic programming technique for maximum subarray sum problems.</li>
-      <li><strong>In-place manipulation</strong> — reversing, rotating, or partitioning without using extra space.</li>
-    </ul>
 
     <div class="quiz">
       <h3>Quiz</h3>
-      <p>What is the time complexity to access the 3rd element of an array?</p>
+      <p>You need to find the length of the longest substring without repeating characters. What's the optimal time complexity using a sliding window?</p>
       <ul>
         <li>A. O(1)</li>
         <li>B. O(n)</li>
-        <li>C. O(log n)</li>
-        <li>D. O(n log n)</li>
+        <li>C. O(n log n)</li>
+        <li>D. O(n²)</li>
       </ul>
     </div>
 
@@ -408,28 +424,28 @@ def build_prefix_sums(arr):
     <ul class="leetcode-list">
       <li>
         <span class="badge easy">Easy</span>
-        <a href="https://leetcode.com/problems/two-sum/" target="_blank">1. Two Sum</a>
-        <span class="desc">— classic hash map + array lookup.</span>
+        <a href="https://leetcode.com/problems/maximum-average-subarray-i/" target="_blank">643. Maximum Average Subarray I</a>
+        <span class="desc">— classic fixed-size window.</span>
       </li>
       <li>
         <span class="badge easy">Easy</span>
-        <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank">121. Best Time to Buy and Sell Stock</a>
-        <span class="desc">— single-pass array tracking.</span>
+        <a href="https://leetcode.com/problems/contains-duplicate-ii/" target="_blank">219. Contains Duplicate II</a>
+        <span class="desc">— fixed-size window with a hash set.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/maximum-subarray/" target="_blank">53. Maximum Subarray</a>
-        <span class="desc">— apply Kadane's Algorithm.</span>
+        <a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank">3. Longest Substring Without Repeating Characters</a>
+        <span class="desc">— variable-size window with a hash map.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">238. Product of Array Except Self</a>
-        <span class="desc">— prefix/suffix product technique.</span>
+        <a href="https://leetcode.com/problems/minimum-size-subarray-sum/" target="_blank">209. Minimum Size Subarray Sum</a>
+        <span class="desc">— shrinking window once a sum threshold is met.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/3sum/" target="_blank">15. 3Sum</a>
-        <span class="desc">— sorting + two-pointer technique.</span>
+        <a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank">424. Longest Repeating Character Replacement</a>
+        <span class="desc">— variable-size window with frequency counting.</span>
       </li>
     </ul>
 
@@ -437,4 +453,3 @@ def build_prefix_sums(arr):
   </div>
 </body>
 </html>
-

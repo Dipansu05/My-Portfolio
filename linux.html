@@ -1,0 +1,673 @@
+<!-- linux.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linux | Dipansu</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #4ee1a0;
+      --accent2: #58a6ff;
+      --bg-panel: #0d1117;
+      --bg-panel-alt: #161b22;
+      --border-col: #30363d;
+      --easy: #3fb950;
+      --medium: #d29922;
+      --hard: #f85149;
+    }
+
+    body {
+      background-image: url('images/dsa-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #c9d1d9;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(3, 6, 12, 0.85);
+      z-index: -1;
+    }
+
+    .container {
+      padding: 4em 2em;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 2.4rem;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+      padding-bottom: 0.3em;
+    }
+
+    h1::before {
+      content: "$ cat ";
+      color: var(--accent);
+    }
+
+    h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--accent2);
+      font-size: 1.3rem;
+      margin-top: 2.2em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    h2::before {
+      content: "#";
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    h3 {
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+      margin-top: 1.4em;
+    }
+
+    p, li {
+      line-height: 1.7;
+      font-size: 0.98rem;
+    }
+
+    code {
+      background-color: rgba(78, 225, 160, 0.12);
+      color: var(--accent);
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Code block styled like a code editor / terminal window */
+    .code-block {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-radius: 10px;
+      margin: 1.2em 0;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+
+    .code-block .code-titlebar {
+      background-color: var(--bg-panel-alt);
+      padding: 0.6em 1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      border-bottom: 1px solid var(--border-col);
+      font-size: 0.8rem;
+      color: #8b949e;
+    }
+
+    .code-block .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+
+    .code-block pre {
+      margin: 0;
+      padding: 1.2em;
+      background: transparent;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      color: #c9d1d9;
+      line-height: 1.6;
+    }
+
+    .illustration {
+      text-align: center;
+      margin: 2em 0;
+    }
+
+    .illustration img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Generic terminal-style table (reused for FHS, permissions, commands) */
+    .complexity-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+      font-size: 0.85rem;
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .complexity-table thead tr {
+      background-color: var(--bg-panel-alt);
+    }
+
+    .complexity-table th {
+      text-align: left;
+      padding: 0.7em 1em;
+      color: var(--accent2);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-col);
+    }
+
+    .complexity-table td {
+      padding: 0.6em 1em;
+      border-bottom: 1px solid var(--border-col);
+      color: #c9d1d9;
+      vertical-align: top;
+    }
+
+    .complexity-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .complexity-table td.big-o {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .quiz {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-left: 4px solid var(--accent2);
+      padding: 1.2em;
+      border-radius: 8px;
+      margin-top: 2em;
+    }
+
+    .quiz h3::before {
+      content: "$ ";
+      color: var(--accent);
+    }
+
+    /* Technique / concept tags */
+    .tech-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 0.6em;
+    }
+
+    .tech-list li {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-left: 3px solid var(--accent);
+      padding: 0.7em 1em;
+      border-radius: 6px;
+    }
+
+    /* Practice / reference list (reused for LeetCode-style + external resources) */
+    .leetcode-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 0.7em;
+    }
+
+    .leetcode-list li {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      padding: 0.8em 1em;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.8em;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2em 0.6em;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    .badge.easy {
+      background-color: rgba(63, 185, 80, 0.15);
+      color: var(--easy);
+      border: 1px solid var(--easy);
+    }
+
+    .badge.medium {
+      background-color: rgba(210, 153, 34, 0.15);
+      color: var(--medium);
+      border: 1px solid var(--medium);
+    }
+
+    .badge.hard {
+      background-color: rgba(248, 81, 73, 0.15);
+      color: var(--hard);
+      border: 1px solid var(--hard);
+    }
+
+    .badge.ref {
+      background-color: rgba(88, 166, 255, 0.15);
+      color: var(--accent2);
+      border: 1px solid var(--accent2);
+    }
+
+    .leetcode-list a {
+      color: var(--accent2);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .leetcode-list a:hover {
+      text-decoration: underline;
+    }
+
+    .leetcode-list .desc {
+      color: #8b949e;
+      font-size: 0.85rem;
+    }
+
+    /* Permission octal chips */
+    .perm-chip {
+      display: inline-block;
+      background: var(--bg-panel-alt);
+      border: 1px solid var(--border-col);
+      color: var(--accent);
+      border-radius: 4px;
+      padding: 0.1em 0.5em;
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2em;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .toc {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-radius: 8px;
+      padding: 1em 1.4em;
+      margin: 1.5em 0;
+    }
+
+    .toc h3 {
+      margin-top: 0;
+      color: var(--accent2);
+    }
+
+    .toc ol {
+      margin: 0.5em 0 0 1.2em;
+      padding: 0;
+    }
+
+    .toc a {
+      color: #c9d1d9;
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>linux</h1>
+    <p>Linux is a free, open-source, Unix-like operating system kernel — first released by Linus Torvalds in 1991 — that today powers everything from smartphones (Android) and web servers to supercomputers and embedded devices. Understanding it deeply means understanding how processes, memory, files, and permissions actually work under the hood.</p>
+
+    <div class="toc">
+      <h3>Contents</h3>
+      <ol>
+        <li><a href="#architecture">Linux Architecture</a></li>
+        <li><a href="#fhs">Filesystem Hierarchy Standard</a></li>
+        <li><a href="#permissions">Users, Groups & Permissions</a></li>
+        <li><a href="#processes">Process Management</a></li>
+        <li><a href="#shell">Shell & Scripting</a></li>
+        <li><a href="#packages">Package Management</a></li>
+        <li><a href="#networking">Networking Basics</a></li>
+        <li><a href="#systemd">systemd & Services</a></li>
+        <li><a href="#cheatsheet">Command Cheat Sheet</a></li>
+        <li><a href="#resources">External Learning Resources</a></li>
+      </ol>
+    </div>
+
+    <h2 id="architecture">Linux Architecture</h2>
+    <p>Linux follows a layered design. At the very bottom sits the <strong>kernel</strong>, which talks directly to hardware; above it sit system libraries and utilities; and above that, the applications you actually run.</p>
+    <ul class="tech-list">
+      <li><strong>Kernel Space</strong> — the core: process scheduler, memory manager, device drivers, and the networking stack. Runs in a privileged CPU mode.</li>
+      <li><strong>System Call Interface</strong> — the boundary between user programs and the kernel (e.g. <code>open()</code>, <code>read()</code>, <code>fork()</code>, <code>execve()</code>).</li>
+      <li><strong>Shell / User Space</strong> — where your programs, shells (bash, zsh), and daemons run in unprivileged mode.</li>
+      <li><strong>Monolithic but Modular</strong> — the Linux kernel is monolithic (everything runs in kernel space for speed) but supports loadable kernel modules (<code>.ko</code> files) so drivers can be added/removed at runtime without a reboot.</li>
+    </ul>
+
+    <h2 id="fhs">Filesystem Hierarchy Standard (FHS)</h2>
+    <p>Almost everything in Linux is represented as a file — including devices and process information. The FHS defines a standard directory layout so that software behaves predictably across distributions.</p>
+    <table class="complexity-table">
+      <thead>
+        <tr>
+          <th>Path</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>/bin</code>, <code>/usr/bin</code></td><td>Essential user command binaries (ls, cp, bash).</td></tr>
+        <tr><td><code>/sbin</code>, <code>/usr/sbin</code></td><td>System administration binaries (fdisk, reboot).</td></tr>
+        <tr><td><code>/etc</code></td><td>System-wide configuration files (no binaries).</td></tr>
+        <tr><td><code>/dev</code></td><td>Device files (e.g. <code>/dev/sda</code>, <code>/dev/null</code>).</td></tr>
+        <tr><td><code>/proc</code></td><td>Virtual filesystem exposing kernel & process info in real time.</td></tr>
+        <tr><td><code>/sys</code></td><td>Virtual filesystem exposing kernel/device driver state (sysfs).</td></tr>
+        <tr><td><code>/var</code></td><td>Variable data: logs, caches, spool files.</td></tr>
+        <tr><td><code>/home</code></td><td>Per-user personal directories.</td></tr>
+        <tr><td><code>/tmp</code></td><td>Temporary files, usually cleared on reboot.</td></tr>
+        <tr><td><code>/lib</code>, <code>/usr/lib</code></td><td>Shared libraries needed by binaries in /bin and /sbin.</td></tr>
+        <tr><td><code>/opt</code></td><td>Optional third-party / add-on software packages.</td></tr>
+        <tr><td><code>/boot</code></td><td>Kernel image, initramfs, and bootloader files.</td></tr>
+        <tr><td><code>/mnt</code>, <code>/media</code></td><td>Mount points for temporary and removable filesystems.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="permissions">Users, Groups & Permissions</h2>
+    <p>Every file has an owner, a group, and a permission set for <strong>owner / group / others</strong>, each with <strong>read (r), write (w), execute (x)</strong> bits. Permissions can be represented symbolically (<code>rwxr-xr--</code>) or numerically in octal.</p>
+    <table class="complexity-table">
+      <thead>
+        <tr>
+          <th>Octal</th>
+          <th>Symbolic</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="perm-chip">7</span></td><td>rwx</td><td>Read + Write + Execute</td></tr>
+        <tr><td><span class="perm-chip">6</span></td><td>rw-</td><td>Read + Write</td></tr>
+        <tr><td><span class="perm-chip">5</span></td><td>r-x</td><td>Read + Execute</td></tr>
+        <tr><td><span class="perm-chip">4</span></td><td>r--</td><td>Read only</td></tr>
+        <tr><td><span class="perm-chip">755</span></td><td>rwxr-xr-x</td><td>Common for executables/scripts.</td></tr>
+        <tr><td><span class="perm-chip">644</span></td><td>rw-r--r--</td><td>Common for regular files.</td></tr>
+      </tbody>
+    </table>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>permissions.sh</span>
+      </div>
+      <pre># view permissions
+ls -l file.txt
+# -rw-r--r-- 1 dipansu dipansu 512 Sep 26 10:00 file.txt
+
+# change permissions
+chmod 755 deploy.sh        # numeric mode
+chmod u+x deploy.sh        # symbolic mode: add execute for owner
+
+# change ownership
+chown dipansu:dev file.txt
+
+# add a user to a group
+sudo usermod -aG docker dipansu
+
+# check current user & groups
+whoami
+groups</pre>
+    </div>
+
+    <h2 id="processes">Process Management</h2>
+    <p>A process is a running instance of a program. The kernel scheduler decides which process runs on the CPU and for how long, using priority/nice values and scheduling classes.</p>
+    <ul class="tech-list">
+      <li><strong>PID / PPID</strong> — every process has a unique Process ID and a Parent Process ID; process 1 (<code>init</code>/<code>systemd</code>) is the ancestor of all others.</li>
+      <li><strong>fork() + exec()</strong> — the classic way new processes are created: <code>fork()</code> duplicates the calling process, then <code>exec()</code> replaces its memory image with a new program.</li>
+      <li><strong>Zombie & Orphan Processes</strong> — a zombie has finished but its exit status hasn't been read by its parent yet; an orphan's parent has died and it gets re-parented to <code>init</code>.</li>
+      <li><strong>Signals</strong> — asynchronous notifications sent to processes (<code>SIGTERM</code>, <code>SIGKILL</code>, <code>SIGINT</code>, <code>SIGHUP</code>) to request termination, interruption, or reload.</li>
+      <li><strong>Foreground vs Background</strong> — append <code>&amp;</code> to run a job in the background; use <code>jobs</code>, <code>fg</code>, <code>bg</code>, and <code>nohup</code> to manage them.</li>
+    </ul>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>process_management.sh</span>
+      </div>
+      <pre># list running processes
+ps aux
+ps -ef --forest         # show process tree
+
+# live resource usage
+top
+htop                     # nicer, interactive (may need install)
+
+# send signals
+kill -15 1234            # SIGTERM: ask process 1234 to terminate gracefully
+kill -9 1234              # SIGKILL: force kill (uncatchable)
+pkill -f "python app.py"  # kill by matching command name
+
+# run in background / detach from terminal
+long_task.sh &
+disown
+nohup long_task.sh &> out.log &
+
+# change scheduling priority
+nice -n 10 ./batch_job.sh
+renice -n 5 -p 1234</pre>
+    </div>
+
+    <h2 id="shell">Shell & Scripting</h2>
+    <p>The shell is both an interactive command interpreter and a scripting language. Bash scripts let you automate repetitive sysadmin and dev tasks.</p>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>backup.sh</span>
+      </div>
+      <pre>#!/usr/bin/env bash
+set -euo pipefail   # exit on error, unset var, or failed pipe
+
+SRC_DIR="/home/dipansu/projects"
+DEST_DIR="/backup/$(date +%Y-%m-%d)"
+
+mkdir -p "$DEST_DIR"
+
+for file in "$SRC_DIR"/*.log; do
+    if [[ -f "$file" ]]; then
+        cp "$file" "$DEST_DIR/"
+        echo "Backed up: $file"
+    fi
+done
+
+echo "Backup complete -> $DEST_DIR"</pre>
+    </div>
+    <ul class="tech-list">
+      <li><strong>Pipes &amp; Redirection</strong> — <code>|</code> chains commands together; <code>&gt;</code>, <code>&gt;&gt;</code>, <code>2&gt;</code>, and <code>&amp;&gt;</code> redirect stdout/stderr to files.</li>
+      <li><strong>Variables &amp; Quoting</strong> — always quote variables (<code>"$var"</code>) to avoid word-splitting and glob expansion bugs.</li>
+      <li><strong>Exit Codes</strong> — every command returns a status (<code>$?</code>); <code>0</code> means success, non-zero means failure — essential for chaining with <code>&amp;&amp;</code> / <code>||</code>.</li>
+      <li><strong>Text Processing Trio</strong> — <code>grep</code> (search), <code>sed</code> (stream editing), and <code>awk</code> (pattern-based field processing) form the backbone of shell text pipelines.</li>
+    </ul>
+
+    <h2 id="packages">Package Management</h2>
+    <p>Different distributions use different package managers, but the underlying goals — installing, updating, and removing software with dependency resolution — are the same.</p>
+    <table class="complexity-table">
+      <thead>
+        <tr>
+          <th>Distro Family</th>
+          <th>Package Manager</th>
+          <th>Example Commands</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Debian / Ubuntu</td><td>APT (.deb)</td><td><code>apt update && apt install nginx</code></td></tr>
+        <tr><td>RHEL / Fedora / CentOS</td><td>DNF / YUM (.rpm)</td><td><code>dnf install nginx</code></td></tr>
+        <tr><td>Arch Linux</td><td>Pacman</td><td><code>pacman -S nginx</code></td></tr>
+        <tr><td>Any distro</td><td>Snap / Flatpak</td><td><code>snap install code --classic</code></td></tr>
+        <tr><td>Embedded (Yocto)</td><td>BitBake recipes</td><td><code>bitbake core-image-minimal</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="networking">Networking Basics</h2>
+    <ul class="tech-list">
+      <li><strong>Interfaces</strong> — <code>ip addr show</code> lists network interfaces and their IP addresses (replaces the older <code>ifconfig</code>).</li>
+      <li><strong>Routing</strong> — <code>ip route</code> shows the routing table; <code>traceroute</code>/<code>mtr</code> trace the path packets take to a destination.</li>
+      <li><strong>DNS</strong> — <code>dig</code> or <code>nslookup</code> resolve hostnames; <code>/etc/resolv.conf</code> and <code>/etc/hosts</code> configure resolution.</li>
+      <li><strong>Sockets &amp; Ports</strong> — <code>ss -tulpn</code> (or the older <code>netstat</code>) lists listening ports and the processes bound to them.</li>
+      <li><strong>Firewall</strong> — <code>iptables</code>/<code>nftables</code> for low-level packet filtering, or <code>ufw</code>/<code>firewalld</code> for a friendlier front-end.</li>
+    </ul>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>networking.sh</span>
+      </div>
+      <pre>ip addr show                  # list interfaces & IPs
+ip route                      # routing table
+ss -tulpn                      # listening TCP/UDP sockets + owning PID
+curl -I https://example.com    # quick HTTP HEAD request
+ping -c 4 8.8.8.8               # basic reachability test
+dig example.com +short          # DNS lookup
+scp file.txt user@host:/path/   # secure copy over SSH</pre>
+    </div>
+
+    <h2 id="systemd">systemd &amp; Services</h2>
+    <p>Most modern distributions use <strong>systemd</strong> as PID 1 — it manages the boot process, services (units), sockets, timers, and logging (via <code>journald</code>).</p>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>systemd.sh</span>
+      </div>
+      <pre>systemctl status nginx          # check service status
+systemctl start nginx           # start a service now
+systemctl enable nginx          # start automatically at boot
+systemctl restart nginx
+journalctl -u nginx -f          # follow live logs for a unit
+journalctl -xe                  # recent logs with explanations
+
+# a minimal custom unit file: /etc/systemd/system/myapp.service
+# [Unit]
+# Description=My App
+# After=network.target
+#
+# [Service]
+# ExecStart=/usr/local/bin/myapp
+# Restart=on-failure
+#
+# [Install]
+# WantedBy=multi-user.target</pre>
+    </div>
+
+    <h2 id="cheatsheet">Command Cheat Sheet</h2>
+    <table class="complexity-table">
+      <thead>
+        <tr>
+          <th>Command</th>
+          <th>What It Does</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>ls -la</code></td><td>List all files (including hidden) with details.</td></tr>
+        <tr><td><code>cd -</code></td><td>Jump back to the previous working directory.</td></tr>
+        <tr><td><code>find / -name "*.log"</code></td><td>Recursively search for files by name.</td></tr>
+        <tr><td><code>grep -rn "TODO" .</code></td><td>Recursively search file contents with line numbers.</td></tr>
+        <tr><td><code>du -sh *</code></td><td>Show disk usage of each item in the current directory.</td></tr>
+        <tr><td><code>df -h</code></td><td>Show free/used disk space per mounted filesystem.</td></tr>
+        <tr><td><code>tar -czvf out.tar.gz dir/</code></td><td>Compress a directory into a gzip tarball.</td></tr>
+        <tr><td><code>chmod +x script.sh</code></td><td>Make a script executable.</td></tr>
+        <tr><td><code>ln -s target link</code></td><td>Create a symbolic link.</td></tr>
+        <tr><td><code>watch -n 2 df -h</code></td><td>Re-run a command every N seconds.</td></tr>
+        <tr><td><code>history | grep ssh</code></td><td>Search your shell command history.</td></tr>
+        <tr><td><code>man chmod</code></td><td>Open the manual page for a command.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="quiz">
+      <h3>Quiz</h3>
+      <p>You need to gracefully ask a misbehaving process to shut down (allowing it to clean up), rather than force-killing it instantly. Which signal should you send?</p>
+      <ul>
+        <li>A. SIGKILL (9)</li>
+        <li>B. SIGTERM (15)</li>
+        <li>C. SIGSTOP</li>
+        <li>D. SIGHUP</li>
+      </ul>
+    </div>
+
+    <h2 id="resources">External Learning Resources</h2>
+    <p>Reading is only half the battle — these are the resources I'd genuinely recommend for actually internalizing Linux internals and daily-driver skills:</p>
+    <ul class="leetcode-list">
+      <li>
+        <span class="badge ref">Interactive</span>
+        <a href="https://linuxjourney.com/" target="_blank">Linux Journey</a>
+        <span class="desc">— a free, beginner-friendly, structured walkthrough of Linux fundamentals.</span>
+      </li>
+      <li>
+        <span class="badge ref">Reference</span>
+        <a href="https://www.tldp.org/" target="_blank">The Linux Documentation Project (TLDP)</a>
+        <span class="desc">— HOWTOs and guides covering nearly every corner of classic Linux administration.</span>
+      </li>
+      <li>
+        <span class="badge ref">Reference</span>
+        <a href="https://man7.org/linux/man-pages/" target="_blank">man7.org Linux man-pages</a>
+        <span class="desc">— the canonical, always-current source for man pages and system call documentation.</span>
+      </li>
+      <li>
+        <span class="badge ref">Book</span>
+        <a href="https://man7.org/tlpi/" target="_blank">"The Linux Programming Interface" by Michael Kerrisk</a>
+        <span class="desc">— the definitive deep-dive into Linux/UNIX system programming (processes, IPC, sockets).</span>
+      </li>
+      <li>
+        <span class="badge ref">Course</span>
+        <a href="https://www.edx.org/learn/linux/the-linux-foundation-introduction-to-linux" target="_blank">Introduction to Linux (Linux Foundation, edX)</a>
+        <span class="desc">— free, official course covering the essentials for using and administering Linux systems.</span>
+      </li>
+      <li>
+        <span class="badge ref">Reference</span>
+        <a href="https://www.kernel.org/doc/html/latest/" target="_blank">The Linux Kernel Documentation</a>
+        <span class="desc">— official kernel internals docs, straight from the source tree.</span>
+      </li>
+      <li>
+        <span class="badge ref">Practice</span>
+        <a href="https://overthewire.org/wargames/bandit/" target="_blank">OverTheWire: Bandit</a>
+        <span class="desc">— a wargame that teaches Linux command-line and shell skills through hands-on SSH challenges.</span>
+      </li>
+      <li>
+        <span class="badge ref">Reference</span>
+        <a href="https://explainshell.com/" target="_blank">explainshell.com</a>
+        <span class="desc">— paste any shell command and get an annotated breakdown of every flag and argument.</span>
+      </li>
+      <li>
+        <span class="badge ref">Cheat Sheet</span>
+        <a href="https://cheat.sh/" target="_blank">cheat.sh</a>
+        <span class="desc">— instant command-line cheat sheets: <code>curl cheat.sh/tar</code>.</span>
+      </li>
+      <li>
+        <span class="badge ref">Video</span>
+        <a href="https://www.youtube.com/c/TheLinuxFoundation" target="_blank">The Linux Foundation (YouTube)</a>
+        <span class="desc">— talks and tutorials from LF events and official training programs.</span>
+      </li>
+    </ul>
+
+    <a href="tech.html" class="back-link">&larr; Back to Tech</a>
+  </div>
+</body>
+</html>

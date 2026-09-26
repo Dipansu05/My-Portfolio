@@ -1588,6 +1588,7 @@ input, select, textarea {
 				text-indent: 4rem;
 				overflow: hidden;
 				white-space: nowrap;
+				z-index: 1000;
 			}
 
 				#main article .close:before {
@@ -1630,6 +1631,16 @@ input, select, textarea {
 					height: 2.25rem;
 					background-size: 14px 14px;
 					border-radius: 4px;
+				}
+
+			.social-icons {
+				top: 10px;
+				right: 10px;
+			}
+
+				.social-icons a {
+					margin-left: 10px;
+					font-size: 18px;
 				}
 
 		}
@@ -1685,6 +1696,10 @@ input, select, textarea {
   top: 20px;
   right: 20px;
   z-index: 999;
+}
+
+body.is-article-visible .social-icons {
+	display: none;
 }
 
 .social-icons a {

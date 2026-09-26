@@ -1,10 +1,10 @@
-<!-- array.html -->
+<!-- stack.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arrays | Dipansu</title>
+  <title>Stack | Dipansu</title>
   <link rel="stylesheet" href="assets/css/main.css" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -136,15 +136,6 @@
       font-size: 0.88rem;
       color: #c9d1d9;
       line-height: 1.6;
-    }
-
-    pre {
-      background-color: #222;
-      padding: 1em;
-      border-radius: 10px;
-      overflow-x: auto;
-      font-family: monospace;
-      color: #ffeaa5;
     }
 
     .illustration {
@@ -298,108 +289,153 @@
 </head>
 <body>
   <div class="container">
-    <h1>Arrays</h1>
-    <p>Arrays are the foundation of data structures. They store elements in a contiguous block of memory and are indexed starting from zero. Because elements sit next to each other in memory, arrays offer extremely fast random access — but that same contiguity is what makes insertion and deletion in the middle expensive.</p>
+    <h1>Stack</h1>
+    <p>A stack is a linear data structure that follows <strong>LIFO</strong> (Last In, First Out) ordering — the most recently added element is the first one removed. Think of a stack of plates: you add and remove from the top only.</p>
 
-    <h2>Static vs. Dynamic Arrays</h2>
-    <p><strong>Static arrays</strong> (like C's <code>int arr[5]</code>) have a fixed size decided at compile time. They live on the stack (or in a fixed memory region) and cannot grow.</p>
-    <p><strong>Dynamic arrays</strong> (like C++'s <code>std::vector</code>, Python's <code>list</code>, or Java's <code>ArrayList</code>) can resize themselves. Under the hood, when a dynamic array runs out of space, it allocates a new, larger block (typically <strong>double</strong> the current capacity), copies all existing elements over, and frees the old block. This is why appending to a dynamic array is <strong>amortized O(1)</strong> — most appends are O(1), but occasionally one costs O(n) during a resize.</p>
+    <h2>Core Operations</h2>
+    <ul class="tech-list">
+      <li><strong>push(x)</strong> — add an element to the top of the stack.</li>
+      <li><strong>pop()</strong> — remove and return the top element.</li>
+      <li><strong>peek() / top()</strong> — view the top element without removing it.</li>
+      <li><strong>isEmpty()</strong> — check whether the stack has any elements.</li>
+    </ul>
 
-    <h2>Basic Operations & Time Complexity</h2>
+    <h2>When to Use a Stack</h2>
+    <p>Stacks are the go-to structure whenever you need to reverse order, track nested structures (parentheses, function calls, undo history), or process something in a "most-recent-first" manner. Classic use cases include expression evaluation, backtracking, and DFS traversal.</p>
+
+    <h2>Common Techniques</h2>
+    <ul class="tech-list">
+      <li><strong>Monotonic Stack</strong> — maintain elements in increasing/decreasing order to solve "next greater/smaller element" problems in O(n).</li>
+      <li><strong>Matching Pairs</strong> — push opening brackets, pop and compare on closing brackets to validate balanced expressions.</li>
+      <li><strong>Auxiliary Stack</strong> — keep a second stack alongside the main one to track minimums/maximums in O(1), as in "Min Stack."</li>
+      <li><strong>Call Stack Simulation</strong> — use an explicit stack to simulate recursion iteratively (e.g., iterative tree traversal).</li>
+    </ul>
+
+    <h2>Time & Space Complexity</h2>
     <table class="complexity-table">
       <thead>
         <tr>
           <th>Operation</th>
-          <th>Static Array</th>
-          <th>Dynamic Array</th>
+          <th>Array-Based Stack</th>
+          <th>Linked List-Based Stack</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Access by index</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
-        <tr><td>Update by index</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
-        <tr><td>Insert/Delete at end</td><td>N/A (fixed size)</td><td class="big-o">Amortized O(1)</td></tr>
-        <tr><td>Insert/Delete at start or middle</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
-        <tr><td>Search (unsorted)</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
-        <tr><td>Search (sorted, binary search)</td><td class="big-o">O(log n)</td><td class="big-o">O(log n)</td></tr>
+        <tr><td>push</td><td class="big-o">O(1) amortized</td><td class="big-o">O(1)</td></tr>
+        <tr><td>pop</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
+        <tr><td>peek</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
+        <tr><td>search</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
+        <tr><td>space</td><td class="big-o">O(n)</td><td class="big-o">O(n) + pointer overhead</td></tr>
       </tbody>
     </table>
 
-    <h2>Memory Layout Illustration</h2>
+    <h2>Illustration: LIFO Ordering</h2>
     <div class="illustration">
-      <img src="images/array-illustration.png" alt="Array Memory Layout Illustration">
+      <img src="images/array-illustration.png" alt="Stack Illustration">
     </div>
 
-    <h2>Why Insertion/Deletion in the Middle is O(n)</h2>
-    <p>Because array elements must stay contiguous, inserting or removing an element at index <code>i</code> requires shifting every element after <code>i</code> by one position — an operation proportional to the number of remaining elements.</p>
-
-    <h2>C++ Example: Declaring & Iterating</h2>
+    <h2>C++ Example: Valid Parentheses</h2>
     <div class="code-block">
       <div class="code-titlebar">
         <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span>array_basics.cpp</span>
+        <span>valid_parentheses.cpp</span>
       </div>
       <pre>#include &lt;iostream&gt;
+#include &lt;stack&gt;
+#include &lt;string&gt;
 using namespace std;
 
-int main() {
-    int arr[5] = {1, 2, 3, 4, 5};
+bool isValid(string s) {
+    stack&lt;char&gt; st;
 
-    cout &lt;&lt; "Array elements: ";
-    for (int i = 0; i &lt; 5; i++) {
-        cout &lt;&lt; arr[i] &lt;&lt; " ";
+    for (char c : s) {
+        if (c == '(' || c == '[' || c == '{') {
+            st.push(c);
+        } else {
+            if (st.empty()) return false;
+            char top = st.top();
+            if ((c == ')' && top != '(') ||
+                (c == ']' && top != '[') ||
+                (c == '}' && top != '{')) {
+                return false;
+            }
+            st.pop();
+        }
     }
-    return 0;
+    return st.empty();
 }</pre>
     </div>
 
-    <h2>Python Example: Common Array Patterns</h2>
+    <h2>Python Example: Common Stack Patterns</h2>
     <div class="code-block">
       <div class="code-titlebar">
         <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span>array_patterns.py</span>
+        <span>stack_patterns.py</span>
       </div>
-      <pre># 1. Reversing an array in place (two-pointer)
-def reverse(arr):
-    left, right = 0, len(arr) - 1
-    while left &lt; right:
-        arr[left], arr[right] = arr[right], arr[left]
-        left += 1
-        right -= 1
-    return arr
+      <pre># 1. Min Stack - retrieve minimum in O(1)
+class MinStack:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
 
-# 2. Finding the maximum subarray sum (Kadane's Algorithm) — O(n)
-def max_subarray_sum(arr):
-    max_sum = current_sum = arr[0]
-    for num in arr[1:]:
-        current_sum = max(num, current_sum + num)
-        max_sum = max(max_sum, current_sum)
-    return max_sum
+    def push(self, val):
+        self.stack.append(val)
+        if not self.min_stack or val &lt;= self.min_stack[-1]:
+            self.min_stack.append(val)
 
-# 3. Prefix sums for O(1) range sum queries after O(n) preprocessing
-def build_prefix_sums(arr):
-    prefix = [0] * (len(arr) + 1)
-    for i, num in enumerate(arr):
-        prefix[i + 1] = prefix[i] + num
-    return prefix  # sum(arr[i:j]) == prefix[j] - prefix[i]</pre>
+    def pop(self):
+        val = self.stack.pop()
+        if val == self.min_stack[-1]:
+            self.min_stack.pop()
+
+    def top(self):
+        return self.stack[-1]
+
+    def get_min(self):
+        return self.min_stack[-1]
+
+
+# 2. Next Greater Element using a monotonic stack
+def next_greater_elements(nums):
+    result = [-1] * len(nums)
+    stack = []  # stores indices
+
+    for i, num in enumerate(nums):
+        while stack and nums[stack[-1]] &lt; num:
+            idx = stack.pop()
+            result[idx] = num
+        stack.append(i)
+
+    return result
+
+
+# 3. Evaluate Reverse Polish Notation
+def eval_rpn(tokens):
+    stack = []
+    ops = {
+        '+': lambda a, b: a + b,
+        '-': lambda a, b: a - b,
+        '*': lambda a, b: a * b,
+        '/': lambda a, b: int(a / b),
+    }
+    for token in tokens:
+        if token in ops:
+            b = stack.pop()
+            a = stack.pop()
+            stack.append(ops[token](a, b))
+        else:
+            stack.append(int(token))
+    return stack[-1]</pre>
     </div>
-
-    <h2>Common Array Techniques to Master</h2>
-    <ul class="tech-list">
-      <li><strong>Two Pointers</strong> — converging or diverging pointers to solve pair-sum, reversal, and partition problems in O(n).</li>
-      <li><strong>Sliding Window</strong> — maintaining a moving subrange to solve subarray/substring problems in O(n) instead of O(n²).</li>
-      <li><strong>Prefix Sums</strong> — precomputing cumulative sums to answer range-sum queries in O(1).</li>
-      <li><strong>Kadane's Algorithm</strong> — a dynamic programming technique for maximum subarray sum problems.</li>
-      <li><strong>In-place manipulation</strong> — reversing, rotating, or partitioning without using extra space.</li>
-    </ul>
 
     <div class="quiz">
       <h3>Quiz</h3>
-      <p>What is the time complexity to access the 3rd element of an array?</p>
+      <p>You need to check if a string of brackets like <code>"({[]})"</code> is balanced. Which data structure is the natural fit?</p>
       <ul>
-        <li>A. O(1)</li>
-        <li>B. O(n)</li>
-        <li>C. O(log n)</li>
-        <li>D. O(n log n)</li>
+        <li>A. Queue</li>
+        <li>B. Stack</li>
+        <li>C. Hash Map</li>
+        <li>D. Heap</li>
       </ul>
     </div>
 
@@ -408,28 +444,28 @@ def build_prefix_sums(arr):
     <ul class="leetcode-list">
       <li>
         <span class="badge easy">Easy</span>
-        <a href="https://leetcode.com/problems/two-sum/" target="_blank">1. Two Sum</a>
-        <span class="desc">— classic hash map + array lookup.</span>
+        <a href="https://leetcode.com/problems/valid-parentheses/" target="_blank">20. Valid Parentheses</a>
+        <span class="desc">— classic matching-pairs stack usage.</span>
       </li>
       <li>
         <span class="badge easy">Easy</span>
-        <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank">121. Best Time to Buy and Sell Stock</a>
-        <span class="desc">— single-pass array tracking.</span>
+        <a href="https://leetcode.com/problems/min-stack/" target="_blank">155. Min Stack</a>
+        <span class="desc">— auxiliary stack to track minimums in O(1).</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/maximum-subarray/" target="_blank">53. Maximum Subarray</a>
-        <span class="desc">— apply Kadane's Algorithm.</span>
+        <a href="https://leetcode.com/problems/daily-temperatures/" target="_blank">739. Daily Temperatures</a>
+        <span class="desc">— monotonic stack for "next greater element."</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">238. Product of Array Except Self</a>
-        <span class="desc">— prefix/suffix product technique.</span>
+        <a href="https://leetcode.com/problems/evaluate-reverse-polish-notation/" target="_blank">150. Evaluate Reverse Polish Notation</a>
+        <span class="desc">— stack-based expression evaluation.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/3sum/" target="_blank">15. 3Sum</a>
-        <span class="desc">— sorting + two-pointer technique.</span>
+        <a href="https://leetcode.com/problems/next-greater-element-ii/" target="_blank">503. Next Greater Element II</a>
+        <span class="desc">— monotonic stack on a circular array.</span>
       </li>
     </ul>
 
@@ -437,4 +473,3 @@ def build_prefix_sums(arr):
   </div>
 </body>
 </html>
-
