@@ -1,10 +1,10 @@
-<!-- array.html -->
+<!-- linked-list.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arrays | Dipansu</title>
+  <title>Linked List | Dipansu</title>
   <link rel="stylesheet" href="assets/css/main.css" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -136,15 +136,6 @@
       font-size: 0.88rem;
       color: #c9d1d9;
       line-height: 1.6;
-    }
-
-    pre {
-      background-color: #222;
-      padding: 1em;
-      border-radius: 10px;
-      overflow-x: auto;
-      font-family: monospace;
-      color: #ffeaa5;
     }
 
     .illustration {
@@ -298,108 +289,131 @@
 </head>
 <body>
   <div class="container">
-    <h1>Arrays</h1>
-    <p>Arrays are the foundation of data structures. They store elements in a contiguous block of memory and are indexed starting from zero. Because elements sit next to each other in memory, arrays offer extremely fast random access — but that same contiguity is what makes insertion and deletion in the middle expensive.</p>
+    <h1>Linked List</h1>
+    <p>A linked list is a linear data structure made of <strong>nodes</strong>, where each node holds a value and a reference (pointer) to the next node. Unlike arrays, elements aren't stored contiguously in memory, which makes insertion and deletion at arbitrary positions much cheaper — at the cost of O(n) random access.</p>
 
-    <h2>Static vs. Dynamic Arrays</h2>
-    <p><strong>Static arrays</strong> (like C's <code>int arr[5]</code>) have a fixed size decided at compile time. They live on the stack (or in a fixed memory region) and cannot grow.</p>
-    <p><strong>Dynamic arrays</strong> (like C++'s <code>std::vector</code>, Python's <code>list</code>, or Java's <code>ArrayList</code>) can resize themselves. Under the hood, when a dynamic array runs out of space, it allocates a new, larger block (typically <strong>double</strong> the current capacity), copies all existing elements over, and frees the old block. This is why appending to a dynamic array is <strong>amortized O(1)</strong> — most appends are O(1), but occasionally one costs O(n) during a resize.</p>
+    <h2>Singly vs Doubly Linked Lists</h2>
+    <ul class="tech-list">
+      <li><strong>Singly Linked List</strong> — each node points only to the <code>next</code> node. Simple and memory-efficient, but traversal is one-directional.</li>
+      <li><strong>Doubly Linked List</strong> — each node has both <code>next</code> and <code>prev</code> pointers, allowing traversal in both directions at the cost of extra memory per node.</li>
+      <li><strong>Circular Linked List</strong> — the last node points back to the head instead of <code>null</code>, useful for round-robin scheduling and buffering.</li>
+    </ul>
 
-    <h2>Basic Operations & Time Complexity</h2>
+    <h2>Common Techniques</h2>
+    <ul class="tech-list">
+      <li><strong>Fast & Slow Pointers</strong> — one pointer moves twice as fast as the other. Used for cycle detection (Floyd's algorithm) and finding the middle node.</li>
+      <li><strong>Dummy Head Node</strong> — an auxiliary node placed before the real head simplifies edge cases when inserting/removing at the start of the list.</li>
+      <li><strong>In-Place Reversal</strong> — reverse pointer directions iteratively using three pointers (<code>prev</code>, <code>curr</code>, <code>next</code>) without extra space.</li>
+      <li><strong>Recursion</strong> — many linked list problems (reversal, merging) have elegant recursive solutions, trading O(n) stack space for simplicity.</li>
+    </ul>
+
+    <h2>Time & Space Complexity</h2>
     <table class="complexity-table">
       <thead>
         <tr>
           <th>Operation</th>
-          <th>Static Array</th>
-          <th>Dynamic Array</th>
+          <th>Array</th>
+          <th>Linked List</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Access by index</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
-        <tr><td>Update by index</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
-        <tr><td>Insert/Delete at end</td><td>N/A (fixed size)</td><td class="big-o">Amortized O(1)</td></tr>
-        <tr><td>Insert/Delete at start or middle</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
-        <tr><td>Search (unsorted)</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
-        <tr><td>Search (sorted, binary search)</td><td class="big-o">O(log n)</td><td class="big-o">O(log n)</td></tr>
+        <tr><td>Access by index</td><td class="big-o">O(1)</td><td class="big-o">O(n)</td></tr>
+        <tr><td>Search</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
+        <tr><td>Insert at head</td><td class="big-o">O(n)</td><td class="big-o">O(1)</td></tr>
+        <tr><td>Insert/delete at known node</td><td class="big-o">O(n)</td><td class="big-o">O(1)</td></tr>
+        <tr><td>Space overhead</td><td class="big-o">O(n)</td><td class="big-o">O(n) + pointer per node</td></tr>
       </tbody>
     </table>
 
-    <h2>Memory Layout Illustration</h2>
+    <h2>Illustration: Node Chain with Pointers</h2>
     <div class="illustration">
-      <img src="images/array-illustration.png" alt="Array Memory Layout Illustration">
+      <img src="images/array-illustration.png" alt="Linked List Illustration">
     </div>
 
-    <h2>Why Insertion/Deletion in the Middle is O(n)</h2>
-    <p>Because array elements must stay contiguous, inserting or removing an element at index <code>i</code> requires shifting every element after <code>i</code> by one position — an operation proportional to the number of remaining elements.</p>
-
-    <h2>C++ Example: Declaring & Iterating</h2>
+    <h2>C++ Example: Reverse a Singly Linked List</h2>
     <div class="code-block">
       <div class="code-titlebar">
         <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span>array_basics.cpp</span>
+        <span>reverse_linked_list.cpp</span>
       </div>
-      <pre>#include &lt;iostream&gt;
-using namespace std;
+      <pre>struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int x) : val(x), next(nullptr) {}
+};
 
-int main() {
-    int arr[5] = {1, 2, 3, 4, 5};
+ListNode* reverseList(ListNode* head) {
+    ListNode* prev = nullptr;
+    ListNode* curr = head;
 
-    cout &lt;&lt; "Array elements: ";
-    for (int i = 0; i &lt; 5; i++) {
-        cout &lt;&lt; arr[i] &lt;&lt; " ";
+    while (curr != nullptr) {
+        ListNode* nextTemp = curr-&gt;next;
+        curr-&gt;next = prev;
+        prev = curr;
+        curr = nextTemp;
     }
-    return 0;
+    return prev;
 }</pre>
     </div>
 
-    <h2>Python Example: Common Array Patterns</h2>
+    <h2>Python Example: Common Linked List Patterns</h2>
     <div class="code-block">
       <div class="code-titlebar">
         <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span>array_patterns.py</span>
+        <span>linked_list_patterns.py</span>
       </div>
-      <pre># 1. Reversing an array in place (two-pointer)
-def reverse(arr):
-    left, right = 0, len(arr) - 1
-    while left &lt; right:
-        arr[left], arr[right] = arr[right], arr[left]
-        left += 1
-        right -= 1
-    return arr
+      <pre>class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
 
-# 2. Finding the maximum subarray sum (Kadane's Algorithm) — O(n)
-def max_subarray_sum(arr):
-    max_sum = current_sum = arr[0]
-    for num in arr[1:]:
-        current_sum = max(num, current_sum + num)
-        max_sum = max(max_sum, current_sum)
-    return max_sum
 
-# 3. Prefix sums for O(1) range sum queries after O(n) preprocessing
-def build_prefix_sums(arr):
-    prefix = [0] * (len(arr) + 1)
-    for i, num in enumerate(arr):
-        prefix[i + 1] = prefix[i] + num
-    return prefix  # sum(arr[i:j]) == prefix[j] - prefix[i]</pre>
+# 1. Detect a cycle using fast & slow pointers (Floyd's algorithm)
+def has_cycle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow == fast:
+            return True
+    return False
+
+
+# 2. Find the middle node using fast & slow pointers
+def middle_node(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    return slow
+
+
+# 3. Merge two sorted linked lists using a dummy head
+def merge_two_lists(l1, l2):
+    dummy = ListNode()
+    tail = dummy
+
+    while l1 and l2:
+        if l1.val &lt;= l2.val:
+            tail.next = l1
+            l1 = l1.next
+        else:
+            tail.next = l2
+            l2 = l2.next
+        tail = tail.next
+
+    tail.next = l1 if l1 else l2
+    return dummy.next</pre>
     </div>
-
-    <h2>Common Array Techniques to Master</h2>
-    <ul class="tech-list">
-      <li><strong>Two Pointers</strong> — converging or diverging pointers to solve pair-sum, reversal, and partition problems in O(n).</li>
-      <li><strong>Sliding Window</strong> — maintaining a moving subrange to solve subarray/substring problems in O(n) instead of O(n²).</li>
-      <li><strong>Prefix Sums</strong> — precomputing cumulative sums to answer range-sum queries in O(1).</li>
-      <li><strong>Kadane's Algorithm</strong> — a dynamic programming technique for maximum subarray sum problems.</li>
-      <li><strong>In-place manipulation</strong> — reversing, rotating, or partitioning without using extra space.</li>
-    </ul>
 
     <div class="quiz">
       <h3>Quiz</h3>
-      <p>What is the time complexity to access the 3rd element of an array?</p>
+      <p>You want to detect whether a linked list contains a cycle without using extra space. Which technique is best suited?</p>
       <ul>
-        <li>A. O(1)</li>
-        <li>B. O(n)</li>
-        <li>C. O(log n)</li>
-        <li>D. O(n log n)</li>
+        <li>A. Binary Search</li>
+        <li>B. Fast & Slow Pointers</li>
+        <li>C. Hash Map of visited nodes</li>
+        <li>D. Sorting</li>
       </ul>
     </div>
 
@@ -408,28 +422,28 @@ def build_prefix_sums(arr):
     <ul class="leetcode-list">
       <li>
         <span class="badge easy">Easy</span>
-        <a href="https://leetcode.com/problems/two-sum/" target="_blank">1. Two Sum</a>
-        <span class="desc">— classic hash map + array lookup.</span>
+        <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">206. Reverse Linked List</a>
+        <span class="desc">— classic in-place reversal with three pointers.</span>
       </li>
       <li>
         <span class="badge easy">Easy</span>
-        <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank">121. Best Time to Buy and Sell Stock</a>
-        <span class="desc">— single-pass array tracking.</span>
+        <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank">21. Merge Two Sorted Lists</a>
+        <span class="desc">— dummy head node technique.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/maximum-subarray/" target="_blank">53. Maximum Subarray</a>
-        <span class="desc">— apply Kadane's Algorithm.</span>
+        <a href="https://leetcode.com/problems/linked-list-cycle-ii/" target="_blank">142. Linked List Cycle II</a>
+        <span class="desc">— fast &amp; slow pointers to find the cycle's start.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">238. Product of Array Except Self</a>
-        <span class="desc">— prefix/suffix product technique.</span>
+        <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank">19. Remove Nth Node From End of List</a>
+        <span class="desc">— two pointers with a gap of n, plus a dummy head.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/3sum/" target="_blank">15. 3Sum</a>
-        <span class="desc">— sorting + two-pointer technique.</span>
+        <a href="https://leetcode.com/problems/add-two-numbers/" target="_blank">2. Add Two Numbers</a>
+        <span class="desc">— simulate digit-by-digit addition across two lists.</span>
       </li>
     </ul>
 
@@ -437,4 +451,3 @@ def build_prefix_sums(arr):
   </div>
 </body>
 </html>
-

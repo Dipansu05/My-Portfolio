@@ -1,10 +1,10 @@
-<!-- array.html -->
+<!-- two-pointer.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arrays | Dipansu</title>
+  <title>Two Pointer Technique | Dipansu</title>
   <link rel="stylesheet" href="assets/css/main.css" />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -136,15 +136,6 @@
       font-size: 0.88rem;
       color: #c9d1d9;
       line-height: 1.6;
-    }
-
-    pre {
-      background-color: #222;
-      padding: 1em;
-      border-radius: 10px;
-      overflow-x: auto;
-      font-family: monospace;
-      color: #ffeaa5;
     }
 
     .illustration {
@@ -298,108 +289,119 @@
 </head>
 <body>
   <div class="container">
-    <h1>Arrays</h1>
-    <p>Arrays are the foundation of data structures. They store elements in a contiguous block of memory and are indexed starting from zero. Because elements sit next to each other in memory, arrays offer extremely fast random access — but that same contiguity is what makes insertion and deletion in the middle expensive.</p>
+    <h1>Two Pointer Technique</h1>
+    <p>The two-pointer technique uses two index variables that traverse an array (or string) — either moving toward each other, moving in the same direction, or moving through two separate arrays — to solve problems in <strong>O(n)</strong> time without needing nested loops or extra data structures.</p>
 
-    <h2>Static vs. Dynamic Arrays</h2>
-    <p><strong>Static arrays</strong> (like C's <code>int arr[5]</code>) have a fixed size decided at compile time. They live on the stack (or in a fixed memory region) and cannot grow.</p>
-    <p><strong>Dynamic arrays</strong> (like C++'s <code>std::vector</code>, Python's <code>list</code>, or Java's <code>ArrayList</code>) can resize themselves. Under the hood, when a dynamic array runs out of space, it allocates a new, larger block (typically <strong>double</strong> the current capacity), copies all existing elements over, and frees the old block. This is why appending to a dynamic array is <strong>amortized O(1)</strong> — most appends are O(1), but occasionally one costs O(n) during a resize.</p>
+    <h2>When to Use Two Pointers</h2>
+    <p>This pattern shines when the input is <strong>sorted</strong>, or when you need to compare/combine elements from opposite ends of a collection, or track a pair/triplet that satisfies some condition. Whenever your brute-force instinct is a nested loop (O(n²)), ask: "can two pointers replace one of those loops?"</p>
 
-    <h2>Basic Operations & Time Complexity</h2>
+    <h2>The Three Common Variants</h2>
+    <ul class="tech-list">
+      <li><strong>Converging Pointers</strong> — one pointer starts at index 0, the other at the last index; they move toward each other. Used for reversing arrays, checking palindromes, and pair-sum problems on sorted arrays.</li>
+      <li><strong>Same-Direction Pointers (Fast & Slow)</strong> — both pointers start at the beginning, but move at different speeds or advance conditionally. Used for removing duplicates in-place, cycle detection (Floyd's algorithm), and partitioning.</li>
+      <li><strong>Two Arrays / Two Pointers</strong> — one pointer per array, both moving forward independently. Used for merging sorted arrays or finding intersections.</li>
+    </ul>
+
+    <h2>Time & Space Complexity</h2>
     <table class="complexity-table">
       <thead>
         <tr>
-          <th>Operation</th>
-          <th>Static Array</th>
-          <th>Dynamic Array</th>
+          <th>Problem Type</th>
+          <th>Brute Force</th>
+          <th>Two Pointer</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Access by index</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
-        <tr><td>Update by index</td><td class="big-o">O(1)</td><td class="big-o">O(1)</td></tr>
-        <tr><td>Insert/Delete at end</td><td>N/A (fixed size)</td><td class="big-o">Amortized O(1)</td></tr>
-        <tr><td>Insert/Delete at start or middle</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
-        <tr><td>Search (unsorted)</td><td class="big-o">O(n)</td><td class="big-o">O(n)</td></tr>
-        <tr><td>Search (sorted, binary search)</td><td class="big-o">O(log n)</td><td class="big-o">O(log n)</td></tr>
+        <tr><td>Pair with target sum (sorted array)</td><td class="big-o">O(n²)</td><td class="big-o">O(n)</td></tr>
+        <tr><td>Reverse array in place</td><td class="big-o">O(n) + O(n) space</td><td class="big-o">O(n), O(1) space</td></tr>
+        <tr><td>Remove duplicates in-place</td><td class="big-o">O(n²)</td><td class="big-o">O(n)</td></tr>
+        <tr><td>Merge two sorted arrays</td><td class="big-o">O((n+m) log(n+m))</td><td class="big-o">O(n+m)</td></tr>
       </tbody>
     </table>
 
-    <h2>Memory Layout Illustration</h2>
+    <h2>Illustration: Converging Pointers</h2>
     <div class="illustration">
-      <img src="images/array-illustration.png" alt="Array Memory Layout Illustration">
+      <img src="images/array-illustration.png" alt="Two Pointer Technique Illustration">
     </div>
 
-    <h2>Why Insertion/Deletion in the Middle is O(n)</h2>
-    <p>Because array elements must stay contiguous, inserting or removing an element at index <code>i</code> requires shifting every element after <code>i</code> by one position — an operation proportional to the number of remaining elements.</p>
-
-    <h2>C++ Example: Declaring & Iterating</h2>
+    <h2>C++ Example: Two Sum on a Sorted Array</h2>
     <div class="code-block">
       <div class="code-titlebar">
         <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span>array_basics.cpp</span>
+        <span>two_sum_sorted.cpp</span>
       </div>
       <pre>#include &lt;iostream&gt;
+#include &lt;vector&gt;
 using namespace std;
 
-int main() {
-    int arr[5] = {1, 2, 3, 4, 5};
+pair&lt;int,int&gt; twoSumSorted(vector&lt;int&gt;& arr, int target) {
+    int left = 0, right = arr.size() - 1;
 
-    cout &lt;&lt; "Array elements: ";
-    for (int i = 0; i &lt; 5; i++) {
-        cout &lt;&lt; arr[i] &lt;&lt; " ";
+    while (left &lt; right) {
+        int sum = arr[left] + arr[right];
+        if (sum == target) {
+            return {left, right};
+        } else if (sum &lt; target) {
+            left++;
+        } else {
+            right--;
+        }
     }
-    return 0;
+    return {-1, -1};
 }</pre>
     </div>
 
-    <h2>Python Example: Common Array Patterns</h2>
+    <h2>Python Example: Common Two Pointer Patterns</h2>
     <div class="code-block">
       <div class="code-titlebar">
         <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span>array_patterns.py</span>
+        <span>two_pointer_patterns.py</span>
       </div>
-      <pre># 1. Reversing an array in place (two-pointer)
-def reverse(arr):
-    left, right = 0, len(arr) - 1
+      <pre># 1. Check if a string is a palindrome (converging pointers)
+def is_palindrome(s):
+    left, right = 0, len(s) - 1
     while left &lt; right:
-        arr[left], arr[right] = arr[right], arr[left]
+        if s[left] != s[right]:
+            return False
         left += 1
         right -= 1
-    return arr
+    return True
 
-# 2. Finding the maximum subarray sum (Kadane's Algorithm) — O(n)
-def max_subarray_sum(arr):
-    max_sum = current_sum = arr[0]
-    for num in arr[1:]:
-        current_sum = max(num, current_sum + num)
-        max_sum = max(max_sum, current_sum)
-    return max_sum
+# 2. Remove duplicates from a sorted array in-place (same-direction pointers)
+def remove_duplicates(nums):
+    if not nums:
+        return 0
+    slow = 0
+    for fast in range(1, len(nums)):
+        if nums[fast] != nums[slow]:
+            slow += 1
+            nums[slow] = nums[fast]
+    return slow + 1  # new length
 
-# 3. Prefix sums for O(1) range sum queries after O(n) preprocessing
-def build_prefix_sums(arr):
-    prefix = [0] * (len(arr) + 1)
-    for i, num in enumerate(arr):
-        prefix[i + 1] = prefix[i] + num
-    return prefix  # sum(arr[i:j]) == prefix[j] - prefix[i]</pre>
+# 3. Merge two sorted arrays (two pointers, two arrays)
+def merge_sorted(a, b):
+    i, j = 0, 0
+    merged = []
+    while i &lt; len(a) and j &lt; len(b):
+        if a[i] &lt;= b[j]:
+            merged.append(a[i])
+            i += 1
+        else:
+            merged.append(b[j])
+            j += 1
+    merged.extend(a[i:])
+    merged.extend(b[j:])
+    return merged</pre>
     </div>
-
-    <h2>Common Array Techniques to Master</h2>
-    <ul class="tech-list">
-      <li><strong>Two Pointers</strong> — converging or diverging pointers to solve pair-sum, reversal, and partition problems in O(n).</li>
-      <li><strong>Sliding Window</strong> — maintaining a moving subrange to solve subarray/substring problems in O(n) instead of O(n²).</li>
-      <li><strong>Prefix Sums</strong> — precomputing cumulative sums to answer range-sum queries in O(1).</li>
-      <li><strong>Kadane's Algorithm</strong> — a dynamic programming technique for maximum subarray sum problems.</li>
-      <li><strong>In-place manipulation</strong> — reversing, rotating, or partitioning without using extra space.</li>
-    </ul>
 
     <div class="quiz">
       <h3>Quiz</h3>
-      <p>What is the time complexity to access the 3rd element of an array?</p>
+      <p>You have a <strong>sorted</strong> array and need to find if any pair sums to a target value. What's the optimal time complexity using two pointers?</p>
       <ul>
         <li>A. O(1)</li>
         <li>B. O(n)</li>
-        <li>C. O(log n)</li>
-        <li>D. O(n log n)</li>
+        <li>C. O(n log n)</li>
+        <li>D. O(n²)</li>
       </ul>
     </div>
 
@@ -408,28 +410,28 @@ def build_prefix_sums(arr):
     <ul class="leetcode-list">
       <li>
         <span class="badge easy">Easy</span>
-        <a href="https://leetcode.com/problems/two-sum/" target="_blank">1. Two Sum</a>
-        <span class="desc">— classic hash map + array lookup.</span>
+        <a href="https://leetcode.com/problems/valid-palindrome/" target="_blank">125. Valid Palindrome</a>
+        <span class="desc">— converging pointers on a string.</span>
       </li>
       <li>
         <span class="badge easy">Easy</span>
-        <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank">121. Best Time to Buy and Sell Stock</a>
-        <span class="desc">— single-pass array tracking.</span>
+        <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank">26. Remove Duplicates from Sorted Array</a>
+        <span class="desc">— fast/slow same-direction pointers.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/maximum-subarray/" target="_blank">53. Maximum Subarray</a>
-        <span class="desc">— apply Kadane's Algorithm.</span>
+        <a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/" target="_blank">167. Two Sum II - Input Array Is Sorted</a>
+        <span class="desc">— classic converging pointer pair-sum.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/product-of-array-except-self/" target="_blank">238. Product of Array Except Self</a>
-        <span class="desc">— prefix/suffix product technique.</span>
+        <a href="https://leetcode.com/problems/container-with-most-water/" target="_blank">11. Container With Most Water</a>
+        <span class="desc">— converging pointers maximizing an area.</span>
       </li>
       <li>
         <span class="badge medium">Medium</span>
-        <a href="https://leetcode.com/problems/3sum/" target="_blank">15. 3Sum</a>
-        <span class="desc">— sorting + two-pointer technique.</span>
+        <a href="https://leetcode.com/problems/sort-colors/" target="_blank">75. Sort Colors</a>
+        <span class="desc">— three-pointer (Dutch National Flag) partitioning.</span>
       </li>
     </ul>
 
@@ -437,4 +439,3 @@ def build_prefix_sums(arr):
   </div>
 </body>
 </html>
-

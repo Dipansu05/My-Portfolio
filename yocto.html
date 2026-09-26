@@ -1,0 +1,690 @@
+<!-- yocto.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yocto Project | Dipansu</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #4ee1a0;
+      --accent2: #58a6ff;
+      --bg-panel: #0d1117;
+      --bg-panel-alt: #161b22;
+      --border-col: #30363d;
+      --easy: #3fb950;
+      --medium: #d29922;
+      --hard: #f85149;
+    }
+
+    body {
+      background-image: url('images/dsa-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: #c9d1d9;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(3, 6, 12, 0.85);
+      z-index: -1;
+    }
+
+    .container {
+      padding: 4em 2em;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 2.4rem;
+      letter-spacing: 0.05em;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+      padding-bottom: 0.3em;
+    }
+
+    h1::before {
+      content: "$ bitbake ";
+      color: var(--accent);
+    }
+
+    h2 {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--accent2);
+      font-size: 1.3rem;
+      margin-top: 2.2em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    h2::before {
+      content: "#";
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    h3 {
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+      margin-top: 1.4em;
+    }
+
+    p, li {
+      line-height: 1.7;
+      font-size: 0.98rem;
+    }
+
+    code {
+      background-color: rgba(78, 225, 160, 0.12);
+      color: var(--accent);
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+    }
+
+    /* Code block styled like a code editor / terminal window */
+    .code-block {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-radius: 10px;
+      margin: 1.2em 0;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+
+    .code-block .code-titlebar {
+      background-color: var(--bg-panel-alt);
+      padding: 0.6em 1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      border-bottom: 1px solid var(--border-col);
+      font-size: 0.8rem;
+      color: #8b949e;
+    }
+
+    .code-block .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+
+    .code-block pre {
+      margin: 0;
+      padding: 1.2em;
+      background: transparent;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88rem;
+      color: #c9d1d9;
+      line-height: 1.6;
+    }
+
+    .illustration {
+      text-align: center;
+      margin: 2em 0;
+    }
+
+    .illustration img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Generic terminal-style table */
+    .complexity-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+      font-size: 0.85rem;
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .complexity-table thead tr {
+      background-color: var(--bg-panel-alt);
+    }
+
+    .complexity-table th {
+      text-align: left;
+      padding: 0.7em 1em;
+      color: var(--accent2);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-col);
+    }
+
+    .complexity-table td {
+      padding: 0.6em 1em;
+      border-bottom: 1px solid var(--border-col);
+      color: #c9d1d9;
+      vertical-align: top;
+    }
+
+    .complexity-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .complexity-table td.big-o {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .quiz {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-left: 4px solid var(--accent2);
+      padding: 1.2em;
+      border-radius: 8px;
+      margin-top: 2em;
+    }
+
+    .quiz h3::before {
+      content: "$ ";
+      color: var(--accent);
+    }
+
+    /* Concept tags */
+    .tech-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 0.6em;
+    }
+
+    .tech-list li {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-left: 3px solid var(--accent);
+      padding: 0.7em 1em;
+      border-radius: 6px;
+    }
+
+    /* Practice / reference list */
+    .leetcode-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 0.7em;
+    }
+
+    .leetcode-list li {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      padding: 0.8em 1em;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 0.8em;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2em 0.6em;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+    }
+
+    .badge.easy {
+      background-color: rgba(63, 185, 80, 0.15);
+      color: var(--easy);
+      border: 1px solid var(--easy);
+    }
+
+    .badge.medium {
+      background-color: rgba(210, 153, 34, 0.15);
+      color: var(--medium);
+      border: 1px solid var(--medium);
+    }
+
+    .badge.hard {
+      background-color: rgba(248, 81, 73, 0.15);
+      color: var(--hard);
+      border: 1px solid var(--hard);
+    }
+
+    .badge.ref {
+      background-color: rgba(88, 166, 255, 0.15);
+      color: var(--accent2);
+      border: 1px solid var(--accent2);
+    }
+
+    .leetcode-list a {
+      color: var(--accent2);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .leetcode-list a:hover {
+      text-decoration: underline;
+    }
+
+    .leetcode-list .desc {
+      color: #8b949e;
+      font-size: 0.85rem;
+    }
+
+    .perm-chip {
+      display: inline-block;
+      background: var(--bg-panel-alt);
+      border: 1px solid var(--border-col);
+      color: var(--accent);
+      border-radius: 4px;
+      padding: 0.1em 0.5em;
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2em;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .toc {
+      background-color: var(--bg-panel);
+      border: 1px solid var(--border-col);
+      border-radius: 8px;
+      padding: 1em 1.4em;
+      margin: 1.5em 0;
+    }
+
+    .toc h3 {
+      margin-top: 0;
+      color: var(--accent2);
+    }
+
+    .toc ol {
+      margin: 0.5em 0 0 1.2em;
+      padding: 0;
+    }
+
+    .toc a {
+      color: #c9d1d9;
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>core-image-yocto</h1>
+    <p>The <strong>Yocto Project</strong> is an open-source collaboration that provides templates, tools, and methods to create custom Linux-based systems for embedded hardware, regardless of the underlying architecture. It isn't a single embedded Linux distribution — it's a build system that helps you create your own.</p>
+
+    <div class="toc">
+      <h3>Contents</h3>
+      <ol>
+        <li><a href="#why">Why Yocto?</a></li>
+        <li><a href="#components">Core Components</a></li>
+        <li><a href="#bitbake">BitBake: The Build Engine</a></li>
+        <li><a href="#layers">Layers & the Layer Model</a></li>
+        <li><a href="#recipes">Recipes & Metadata</a></li>
+        <li><a href="#classes">Classes & Tasks</a></li>
+        <li><a href="#workflow">Getting Started: Build Workflow</a></li>
+        <li><a href="#customizing">Customizing an Image</a></li>
+        <li><a href="#sdk">SDK & Application Development</a></li>
+        <li><a href="#debugging">Debugging & Common Pitfalls</a></li>
+        <li><a href="#cheatsheet">Command Cheat Sheet</a></li>
+        <li><a href="#resources">External Learning Resources</a></li>
+      </ol>
+    </div>
+
+    <h2 id="why">Why Yocto?</h2>
+    <p>Building a custom embedded Linux image by hand — cross-compiling a toolchain, kernel, bootloader, and root filesystem for a specific board — is slow and error-prone. Yocto standardizes this into a reproducible, metadata-driven build process so you can target new hardware, swap components, and maintain long-term builds without starting from scratch.</p>
+    <ul class="tech-list">
+      <li><strong>Reproducibility</strong> — the exact same metadata always produces the exact same image, byte for byte, across machines.</li>
+      <li><strong>Architecture Independence</strong> — the same recipes can target ARM, x86, MIPS, RISC-V, and more by simply switching the <code>MACHINE</code>.</li>
+      <li><strong>Long-Term Support</strong> — used as the basis for the Linux Foundation's <em>OpenEmbedded</em> ecosystem and adopted widely in automotive, industrial, and IoT products.</li>
+      <li><strong>Full Control</strong> — you decide exactly which packages, init system, and kernel config end up in the final image — no bloat you didn't ask for.</li>
+    </ul>
+
+    <h2 id="components">Core Components</h2>
+    <table class="complexity-table">
+      <thead>
+        <tr>
+          <th>Component</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Poky</td><td>The reference distribution — a working combination of BitBake + OpenEmbedded-Core metadata used as a starting point.</td></tr>
+        <tr><td>BitBake</td><td>The task-execution/build engine that parses recipes and resolves dependencies to build packages and images.</td></tr>
+        <tr><td>OpenEmbedded-Core (OE-Core)</td><td>Core metadata (recipes/classes) shared across OpenEmbedded-based distributions, including Yocto.</td></tr>
+        <tr><td>Metadata</td><td>Recipes (<code>.bb</code>), append files (<code>.bbappend</code>), configuration (<code>.conf</code>), and classes (<code>.bbclass</code>) that describe what to build.</td></tr>
+        <tr><td>BSP Layers</td><td>Board Support Package layers containing machine-specific configuration, kernel, and bootloader recipes.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="bitbake">BitBake: The Build Engine</h2>
+    <p>BitBake reads recipes and their dependency graph, then executes a series of <strong>tasks</strong> (fetch, unpack, patch, configure, compile, install, package) for each recipe in the correct order, using a scheduler similar in spirit to <code>make</code> but distribution-aware and cross-compilation-first.</p>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>bitbake-basics.sh</span>
+      </div>
+      <pre># source the build environment (creates/enters build/ dir)
+source oe-init-build-env
+
+# build a full image for the configured MACHINE
+bitbake core-image-minimal
+
+# build just one recipe/package
+bitbake busybox
+
+# see the full task list bitbake would run, without running them
+bitbake -g core-image-minimal   # generates pn-depends.dot / task-depends.dot
+
+# force re-execution of a specific task
+bitbake -c compile -f busybox
+bitbake -c cleansstate busybox   # wipe shared-state cache for a recipe
+
+# jump into a recipe's work directory to debug interactively
+bitbake -c devshell busybox</pre>
+    </div>
+
+    <h2 id="layers">Layers & the Layer Model</h2>
+    <p>A <strong>layer</strong> is simply a structured directory of recipes and configuration that can be stacked on top of others. This layered model is what lets you cleanly add a BSP, a middleware stack, or your own product customizations without touching upstream metadata.</p>
+    <ul class="tech-list">
+      <li><strong>meta</strong> — OpenEmbedded-Core, the foundational layer bundled with Poky.</li>
+      <li><strong>meta-poky</strong> — Poky-specific distro configuration and branding.</li>
+      <li><strong>meta-yocto-bsp</strong> — reference board support packages (e.g. QEMU targets).</li>
+      <li><strong>meta-openembedded</strong> — a large community collection of additional recipes (networking, multimedia, Python packages, etc.).</li>
+      <li><strong>meta-&lt;vendor&gt;</strong> — vendor-supplied BSP layers (e.g. <code>meta-raspberrypi</code>, <code>meta-ti</code>, <code>meta-freescale</code>).</li>
+      <li><strong>meta-&lt;yourproduct&gt;</strong> — your own custom layer for product-specific recipes and image definitions.</li>
+    </ul>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>layers.sh</span>
+      </div>
+      <pre># create a new layer skeleton with the right structure
+bitbake-layers create-layer meta-mylayer
+
+# add it to bblayers.conf so BitBake picks it up
+bitbake-layers add-layer ../meta-mylayer
+
+# list currently enabled layers and their priority
+bitbake-layers show-layers
+
+# see which layer/recipe provides a given package
+bitbake-layers show-recipes busybox
+bitbake-layers show-appends</pre>
+    </div>
+
+    <h2 id="recipes">Recipes & Metadata</h2>
+    <p>A <strong>recipe</strong> (<code>.bb</code> file) describes how to fetch, configure, build, and package a single piece of software. Recipes can be extended non-destructively with <code>.bbappend</code> files in another layer, which is the standard way to customize upstream recipes.</p>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>myapp_1.0.bb</span>
+      </div>
+      <pre>SUMMARY = "A simple example application"
+DESCRIPTION = "Demonstrates a minimal Yocto recipe for a C program"
+LICENSE = "MIT"
+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+
+SRC_URI = "git://github.com/example/myapp.git;branch=main;protocol=https"
+SRCREV = "abcdef1234567890abcdef1234567890abcdef12"
+
+S = "${WORKDIR}/git"
+
+DEPENDS = "zlib"
+
+inherit cmake
+
+do_install:append() {
+    install -d ${D}${bindir}
+    install -m 0755 ${B}/myapp ${D}${bindir}/myapp
+}
+
+FILES:${PN} = "${bindir}/myapp"</pre>
+    </div>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>myapp_%.bbappend</span>
+      </div>
+      <pre># placed in meta-mylayer/recipes-myapp/myapp/myapp_%.bbappend
+# extends the upstream myapp recipe without editing it directly
+
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+
+SRC_URI += "file://0001-fix-custom-config.patch"
+
+do_install:append() {
+    install -d ${D}${sysconfdir}/myapp
+    install -m 0644 ${WORKDIR}/myapp.conf ${D}${sysconfdir}/myapp/
+}</pre>
+    </div>
+
+    <h2 id="classes">Classes & Tasks</h2>
+    <p>Classes (<code>.bbclass</code>) capture shared build logic — like <code>autotools.bbclass</code>, <code>cmake.bbclass</code>, or <code>kernel.bbclass</code> — so recipes can <code>inherit</code> common behavior instead of repeating boilerplate. Every recipe is built up from a fixed sequence of tasks.</p>
+    <table class="complexity-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>What Happens</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>do_fetch</code></td><td>Downloads source from <code>SRC_URI</code> (git, http, local files, etc.) into the download cache.</td></tr>
+        <tr><td><code>do_unpack</code></td><td>Unpacks fetched sources into the working directory (<code>${WORKDIR}</code>).</td></tr>
+        <tr><td><code>do_patch</code></td><td>Applies any patches listed in <code>SRC_URI</code>.</td></tr>
+        <tr><td><code>do_configure</code></td><td>Runs the project's configure step (autotools, cmake, meson, etc.).</td></tr>
+        <tr><td><code>do_compile</code></td><td>Cross-compiles the source using the generated toolchain.</td></tr>
+        <tr><td><code>do_install</code></td><td>Installs build output into <code>${D}</code>, a staging "destination" root.</td></tr>
+        <tr><td><code>do_package</code></td><td>Splits installed files into one or more binary packages (ipk/deb/rpm).</td></tr>
+        <tr><td><code>do_rootfs</code></td><td>(Image-level) Assembles all selected packages into the final root filesystem.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="workflow">Getting Started: Build Workflow</h2>
+    <p>A typical first build — targeting the QEMU emulator so you don't even need real hardware — looks like this:</p>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>first_build.sh</span>
+      </div>
+      <pre># 1. clone poky (the reference distro / build system)
+git clone -b kirkstone git://git.yoctoproject.org/poky
+cd poky
+
+# 2. set up the build environment (creates build/conf/local.conf)
+source oe-init-build-env
+
+# 3. (edit build/conf/local.conf to set MACHINE, e.g. qemux86-64)
+
+# 4. kick off the build - this compiles the toolchain, kernel, and rootfs
+bitbake core-image-minimal
+
+# 5. boot the resulting image under QEMU
+runqemu qemux86-64</pre>
+    </div>
+    <p>The first build can take hours since it compiles an entire cross-toolchain and every package from source — subsequent builds are much faster thanks to <strong>shared state (sstate) caching</strong>, which reuses previously built task output whenever its inputs haven't changed.</p>
+
+    <h2 id="customizing">Customizing an Image</h2>
+    <p>Custom images are just recipes that <code>inherit core-image</code> and declare which packages to install, typically placed in your own layer under <code>recipes-core/images/</code>.</p>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>myproduct-image.bb</span>
+      </div>
+      <pre>SUMMARY = "Custom product image with SSH, Python, and myapp"
+LICENSE = "MIT"
+
+inherit core-image
+
+IMAGE_FEATURES += "ssh-server-openssh package-management"
+
+IMAGE_INSTALL:append = " \
+    myapp \
+    python3 \
+    python3-pip \
+    htop \
+    nano \
+"
+
+IMAGE_ROOTFS_EXTRA_SPACE = "1048576"</pre>
+    </div>
+    <ul class="tech-list">
+      <li><strong>local.conf</strong> — machine-local build settings: <code>MACHINE</code>, <code>DISTRO</code>, parallelism (<code>BB_NUMBER_THREADS</code>), download/sstate directories.</li>
+      <li><strong>IMAGE_INSTALL</strong> — the list of packages to bake into an image; append with <code>:append</code> rather than overriding outright.</li>
+      <li><strong>DISTRO_FEATURES</strong> — high-level distro capabilities (e.g. <code>systemd</code>, <code>wayland</code>, <code>bluetooth</code>) that gate which recipes get built with which options.</li>
+      <li><strong>local.conf vs distro.conf</strong> — <code>local.conf</code> is per-build-tree and untracked; a proper distro layer's <code>.conf</code> is versioned and reusable across builds.</li>
+    </ul>
+
+    <h2 id="sdk">SDK & Application Development</h2>
+    <p>Yocto can also generate a standalone cross-toolchain (an "extensible SDK" or classic SDK) so application developers can build software for the target without needing the full BitBake build environment.</p>
+    <div class="code-block">
+      <div class="code-titlebar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span>sdk.sh</span>
+      </div>
+      <pre># build a relocatable SDK matching your image
+bitbake core-image-minimal -c populate_sdk
+
+# or the extensible SDK (includes devtool, faster iteration)
+bitbake core-image-minimal -c populate_sdk_ext
+
+# install the generated SDK (produces environment-setup-* script)
+./tmp/deploy/sdk/poky-glibc-x86_64-core-image-minimal-*.sh
+
+# use it to cross-compile an app against the target sysroot
+source /opt/poky/*/environment-setup-*
+$CC myapp.c -o myapp
+
+# devtool: iterate on a recipe/source without a full rebuild
+devtool modify myapp
+devtool build myapp
+devtool deploy-target myapp root@192.168.1.50</pre>
+    </div>
+
+    <h2 id="debugging">Debugging & Common Pitfalls</h2>
+    <ul class="tech-list">
+      <li><strong>"Nothing RPROVIDES" errors</strong> — usually a missing/misnamed package dependency; use <code>bitbake-layers show-recipes &lt;name&gt;</code> to check what's actually available.</li>
+      <li><strong>do_compile failures</strong> — drop into the recipe's work directory with <code>bitbake -c devshell &lt;recipe&gt;</code> to reproduce the exact cross-compile environment interactively.</li>
+      <li><strong>Stale sstate cache</strong> — if a change isn't picked up, try <code>bitbake -c cleansstate &lt;recipe&gt;</code> before rebuilding.</li>
+      <li><strong>QA/license warnings</strong> — Yocto's QA checks are strict; missing <code>LICENSE</code>/<code>LIC_FILES_CHKSUM</code> or bad file placement will fail the build by design, not by accident.</li>
+      <li><strong>Reading logs</strong> — per-task logs live under <code>tmp/work/&lt;arch&gt;/&lt;recipe&gt;/&lt;version&gt;/temp/log.do_&lt;task&gt;</code>; always check these before assuming a mysterious failure.</li>
+    </ul>
+
+    <h2 id="cheatsheet">Command Cheat Sheet</h2>
+    <table class="complexity-table">
+      <thead>
+        <tr>
+          <th>Command</th>
+          <th>What It Does</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>source oe-init-build-env [dir]</code></td><td>Set up/enter a BitBake build environment.</td></tr>
+        <tr><td><code>bitbake &lt;target&gt;</code></td><td>Build a recipe or image target.</td></tr>
+        <tr><td><code>bitbake -c &lt;task&gt; &lt;target&gt;</code></td><td>Run a specific task (e.g. compile, devshell, menuconfig) for a target.</td></tr>
+        <tr><td><code>bitbake -e &lt;target&gt; | grep ^VAR=</code></td><td>Inspect the final expanded value of a variable for a recipe.</td></tr>
+        <tr><td><code>bitbake-layers show-layers</code></td><td>List all layers currently configured in the build.</td></tr>
+        <tr><td><code>devtool modify &lt;recipe&gt;</code></td><td>Extract a recipe's source into a local workspace for iterative development.</td></tr>
+        <tr><td><code>runqemu &lt;machine&gt;</code></td><td>Boot a built image in the QEMU emulator.</td></tr>
+        <tr><td><code>wic list images</code></td><td>List available disk image (.wic) definitions for flashing to media.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="quiz">
+      <h3>Quiz</h3>
+      <p>You need to customize an existing upstream recipe (add a patch and an extra config file) without editing it directly. What's the correct Yocto mechanism?</p>
+      <ul>
+        <li>A. Fork the entire layer and rename it</li>
+        <li>B. Create a <code>.bbappend</code> file in your own layer</li>
+        <li>C. Edit the recipe in <code>meta/</code> directly</li>
+        <li>D. Use <code>sed</code> on the generated package after the build</li>
+      </ul>
+    </div>
+
+    <h2 id="resources">External Learning Resources</h2>
+    <p>The official docs are dense but authoritative — pairing them with a few community resources makes the learning curve much more manageable:</p>
+    <ul class="leetcode-list">
+      <li>
+        <span class="badge ref">Official Docs</span>
+        <a href="https://docs.yoctoproject.org/" target="_blank">Yocto Project Documentation</a>
+        <span class="desc">— the canonical reference: Quick Build, Reference Manual, BitBake User Manual, and Mega-Manual.</span>
+      </li>
+      <li>
+        <span class="badge ref">Official Docs</span>
+        <a href="https://docs.yoctoproject.org/dev-manual/index.html" target="_blank">Yocto Project Development Tasks Manual</a>
+        <span class="desc">— practical, task-oriented guide: adding a layer, customizing images, working with devtool.</span>
+      </li>
+      <li>
+        <span class="badge ref">Reference</span>
+        <a href="https://layers.openembedded.org/layerindex/branch/master/layers/" target="_blank">OpenEmbedded Layer Index</a>
+        <span class="desc">— searchable directory of every publicly available Yocto/OE layer and the recipes inside them.</span>
+      </li>
+      <li>
+        <span class="badge ref">Course</span>
+        <a href="https://bootlin.com/training/yocto/" target="_blank">Bootlin: Yocto Project and OpenEmbedded Training</a>
+        <span class="desc">— free, high-quality slides and labs from a well-known embedded Linux training company.</span>
+      </li>
+      <li>
+        <span class="badge ref">Community</span>
+        <a href="https://www.yoctoproject.org/community/mailing-lists/" target="_blank">Yocto Project Mailing Lists</a>
+        <span class="desc">— where much of the real day-to-day troubleshooting and design discussion happens.</span>
+      </li>
+      <li>
+        <span class="badge ref">Reference</span>
+        <a href="https://wiki.yoctoproject.org/wiki/Main_Page" target="_blank">Yocto Project Wiki</a>
+        <span class="desc">— release info, roadmap, and community-maintained how-tos.</span>
+      </li>
+      <li>
+        <span class="badge ref">Video</span>
+        <a href="https://www.youtube.com/c/YoctoProject" target="_blank">Yocto Project (YouTube)</a>
+        <span class="desc">— recorded talks from Yocto Project Summits covering real-world use cases and deep dives.</span>
+      </li>
+      <li>
+        <span class="badge ref">Book</span>
+        <a href="https://www.oreilly.com/library/view/embedded-linux-projects/9781787285055/" target="_blank">"Embedded Linux Projects Using Yocto Project Cookbook" by Alex Gonzalez</a>
+        <span class="desc">— practical recipe-style solutions for common embedded Yocto tasks.</span>
+      </li>
+      <li>
+        <span class="badge ref">Reference</span>
+        <a href="https://layers.openembedded.org/layerindex/branch/master/recipes/" target="_blank">OE Recipe Search</a>
+        <span class="desc">— quickly check whether a package you need already has an existing recipe upstream.</span>
+      </li>
+    </ul>
+
+    <a href="tech.html" class="back-link">&larr; Back to Tech</a>
+  </div>
+</body>
+</html>
